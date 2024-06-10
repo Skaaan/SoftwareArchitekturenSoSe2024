@@ -1,0 +1,114 @@
+/* Home.css */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    background-color: #f9f3e5;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #e3dac9; /* Slightly darker shade */
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .logo {
+    font-size: 24px;
+  }
+  
+  .nav button {
+    margin: 0 10px;
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .language-select {
+    margin-left: 20px;
+  }
+  
+  .search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .search-bar input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .search-bar button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #fff;
+  }
+  
+  .sort-options {
+    text-align: right;
+    margin: 0 20px 20px;
+  }
+  
+  .book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+  
+  .book-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .book-card img {
+    width: 150px; /* Fixed width */
+    height: 225px; /* Fixed height */
+    object-fit: cover; /* Maintain aspect ratio, cover the area */
+    margin-bottom: 10px;
+  }
+  
+  .icons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  .icons a {
+    font-size: 24px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #e3dac9; /* Slightly darker shade */
+    border-top: 1px solid #ccc;
+    margin-top: auto;
+    font-size: 14px;
+  }
+  
