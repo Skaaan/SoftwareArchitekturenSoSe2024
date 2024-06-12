@@ -7,6 +7,11 @@ import pillowThoughts from '../assets/PT.jpg';
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
 import metamorphosis from '../assets/Metamorphosis.jpg';
+import basket from '../assets/Basket.png';
+import heart from '../assets/heart.png';
+import addtobasket from '../assets/addtobasket.png';
+import logo from '../assets/logo.png';
+
 
 const books = [
   { title: "Notes from Underground", price: "11,22 €", imgSrc: notesFromUnderground, id: 1 },
@@ -18,17 +23,21 @@ const books = [
 ];
 
 const Home = ({ navigate, goBack }) => (
-  <div className="app">
-    <header className="header">
-      <div className="logo">Reader’s Insel</div>
-      <div className="nav">
-        <button onClick={() => navigate('signin')}>Log in</button>
-        <button onClick={() => navigate('signup')}>Sign up</button>
-        <button onClick={() => navigate('contact')}>Contact</button>
-        <button onClick={() => navigate('checkout')}>Checkout</button>
-        <div className="language-select">EN</div>
-      </div>
-    </header>
+    <div className="app">
+      <header className="header">
+        <div className="logo-container" onClick={() => navigate('home')}>
+          <img src={logo} alt="Logo" className="logo-img" />
+          <div className="logo-text">Reader’s Insel</div>
+        </div>
+        <div className="nav">
+          <button onClick={() => navigate('signin')}>Log in</button>
+          <button onClick={() => navigate('signup')}>Sign up</button>
+          <button onClick={() => navigate('contact')}>Contact</button>
+          <button onClick={() => navigate('checkout')}>
+            <img src={basket} alt="Checkout" className='basket' />
+          </button>
+        </div>
+      </header>
     <main>
       <div className="search-bar">
         <input type="text" placeholder="Title, Author, ISBN" />
@@ -39,18 +48,17 @@ const Home = ({ navigate, goBack }) => (
       </div>
       <div className="book-list">
         {books.map(book => (
-          <div className="book-card" key={book.id} onClick={() => navigate('description', book)}>
-            <img src={book.imgSrc} alt={book.title} />
+          <div className="book-card">
+            <img src={book.imgSrc} key={book.id} onClick={() => navigate('description', book)} alt={book.title}/>
             <h3>{book.title}</h3>
             <p>{book.price}</p>
             <div className="icons">
-              <a href="#">❤️</a>
+            <img src={heart} alt="Add to wishlist" className='heart'/>
               <a href="#">🛒</a>
             </div>
           </div>
         ))}
       </div>
-      <button className="back-button" onClick={goBack}>Back</button>
     </main>
     <footer>
       <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
