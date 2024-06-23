@@ -12,25 +12,27 @@ const SignIn = ({ navigate }) => {
         </div>
       </header>
       <main>
-        <h2>Sign in</h2>
-        <form className="signin-form">
-          <div className="form-group">
-            <label htmlFor="username">Username*</label>
-            <input type="text" id="username" placeholder="Username" required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password">Password*</label>
-            <input type="password" id="password" placeholder="Password" required />
-          </div>
-          <div className="form-group">
-            <a href="#" className="reset-password">Reset password</a>
-          </div>
-          <button type="submit" className="signin-button">Sign in</button>
-          <div className="signup-option">
-            <p>Or</p>
-            <button type="button" className="signup-button" onClick={() => navigate('signup')}>Create an account</button>
-          </div>
-        </form>
+        <div className="form-container">
+          <h2>Sign in</h2>
+          <form className="signin-form">
+            <div className="form-group">
+              <label htmlFor="username">Username*</label>
+              <input type="text" id="username" placeholder="Username" required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password*</label>
+              <input type="password" id="password" placeholder="Password" required />
+            </div>
+            <div className="form-group">
+              <a href="#" className="reset-password">Reset password</a>
+            </div>
+            <button type="submit" className="signin-button">Sign in</button>
+            <div className="signup-option">
+              <p>Or</p>
+              <button type="button" className="signup-button" onClick={() => navigate('signup')}>Create an account</button>
+            </div>
+          </form>
+        </div>
       </main>
       <footer>
         <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
