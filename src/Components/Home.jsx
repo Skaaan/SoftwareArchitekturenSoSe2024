@@ -6,13 +6,30 @@ import logo from '../assets/logo.png';
 
 const Home = ({ navigate }) => {
   const [books, setBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredBooks, setFilteredBooks] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:4002/books')
       .then(response => response.json())
-      .then(data => setBooks(data))
+      .then(data => {
+        setBooks(data);
+        setFilteredBooks(data);
+      })
       .catch(error => console.error('Error fetching books:', error));
   }, []);
+
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    const filtered = books.filter(book => 
+      book.title.toLowerCase().includes(query) || 
+      book.isbn.toLowerCase().includes(query) ||
+      book.author.toLowerCase().includes(query)
+    );
+    setFilteredBooks(filtered);
+  };
 
   return (
     <div className="app">
@@ -32,14 +49,19 @@ const Home = ({ navigate }) => {
       </header>
       <main>
         <div className="search-bar">
-          <input type="text" placeholder="Title, Author, ISBN" />
+          <input 
+            type="text" 
+            placeholder="Search by Title, Author or ISBN" 
+            value={searchQuery}
+            onChange={handleSearch}
+          />
           <button>🔍</button>
         </div>
         <div className="sort-options">
           <span>Sort by: Price ascending</span>
         </div>
         <div className="book-list">
-          {books.map(book => (
+          {filteredBooks.map(book => (
             <div 
               className="book-card" 
               key={book.id} 
