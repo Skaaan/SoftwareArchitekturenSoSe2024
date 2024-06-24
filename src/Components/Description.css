@@ -1,85 +1,154 @@
 /* Description.css */
 html, body, #root {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f3e5;
+}
+
+body {
+  color: #333;
+}
+
+/* Scoped to Description component */
+.description-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.description-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #e3dac9;
+  border-bottom: 1px solid #ccc;
+}
+
+.description-logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.description-header button {
+  background: none;
+  border: 2px solid #333;
+  color: #333;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.description-header button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.description-book-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.description-book-details img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.description-book-info {
+  max-width: 600px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.description-book-info h2 {
+  margin-top: 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.description-book-info p {
+  margin: 5px 0;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #555;
+}
+
+.description-book-info p strong {
+  color: #333;
+}
+
+.description-footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #e3dac9;
+  border-top: 1px solid #ccc;
+  margin-top: auto;
+  font-size: 14px;
+  color: #666;
+}
+
+.description-back-button {
+  padding: 10px 20px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f3e5;
+  color: #333;
+  cursor: pointer;
+  margin-top: 20px;
+  align-self: center;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.description-back-button:hover {
+  background-color: #e3dac9;
+  border-color: #bbb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .description-book-details {
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      gap: 10px;
   }
-  
-  body {
-    background-color: #f9f3e5;
-    font-family: Arial, sans-serif;
-    color: #333;
+
+  .description-book-info {
+      max-width: 100%;
+      padding: 10px;
   }
-  
-  .description-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+
+  .description-book-info h2 {
+      font-size: 24px;
   }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-bottom: 1px solid #ccc;
+
+  .description-book-info p {
+      font-size: 14px;
   }
-  
-  .logo {
-    font-size: 24px;
+
+  .description-book-details img {
+      width: 150px;
+      height: 225px;
   }
-  
-  .header button {
-    background: none;
-    border: none;
-    color: #333;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .book-details {
-    display: flex;
-    padding: 20px;
-  }
-  
-  .book-details img {
-    width: 150px;
-    height: 225px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .book-info {
-    max-width: 600px;
-  }
-  
-  .book-info h2 {
-    margin-top: 0;
-  }
-  
-  .book-info p {
-    margin: 10px 0;
-  }
-  
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-top: 1px solid #ccc;
-    margin-top: auto;
-    font-size: 14px;
-  }
-  .back-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ccc;
-    color: #333;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #bbb;
-  }
-   
+}
