@@ -1,8 +1,9 @@
-// Import necessary modules
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { expressjwt: jwt } = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
 
 const app = express();
 const PORT = 4002;
@@ -30,6 +31,19 @@ connection.connect((err) => {
   console.log('Connected to MySQL database as id ' + connection.threadId);
 });
 
+// JWT authentication middleware
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `http://localhost:8080/auth/realms/bookStore/protocol/openid-connect/certs`
+  }),
+  audience: 'react-client',
+  issuer: `http://localhost:8080/auth/realms/bookStore`,
+  algorithms: ['RS256']
+});
+
 // GET route to fetch all books
 app.get('/books', (req, res) => {
   connection.query('SELECT * FROM books', (error, results) => {
@@ -41,9 +55,11 @@ app.get('/books', (req, res) => {
   });
 });
 
-
-// POST route to add a new book
-app.post('/books', (req, res) => {
+// POST route to add a new book (admin only)
+app.post('/books', checkJwt, (req, res) => {
+  if (!req.user.realm_access.roles.includes('admin')) {
+    return res.status(403).send('Access denied');
+  }
   const newBook = req.body; 
   connection.query('INSERT INTO books SET ?', newBook, (error, results) => {
     if (error) {
@@ -54,33 +70,11 @@ app.post('/books', (req, res) => {
   });
 });
 
-// POST route for user login
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  connection.query('SELECT * FROM login WHERE username = ?', [username], (error, results) => {
-    if (error) {
-      res.status(500).send('Error in database operation');
-      return;
-    }
-
-    if (results.length > 0) {
-      // Compare the plain text password
-      if (password === results[0].password) {
-          res.status(200).send('Login successful!');
-      } else {
-          res.status(401).send('Unauthorized Login. Please check your credentials again!');
-      }
-    } else {
-      res.status(401).send('Unauthorized Login. Please check your credentials again!');
-    }
-  });
-});
-
-
-
-// PUT route to update a book
-app.put('/books/:id', (req, res) => {
+// PUT route to update a book (admin only)
+app.put('/books/:id', checkJwt, (req, res) => {
+  if (!req.user.realm_access.roles.includes('admin')) {
+    return res.status(403).send('Access denied');
+  }
   const { id } = req.params;
   const updatedBook = req.body;
   connection.query('UPDATE books SET ? WHERE id = ?', [updatedBook, id], (error, results) => {
@@ -92,8 +86,11 @@ app.put('/books/:id', (req, res) => {
   });
 });
 
-// DELETE route to delete a book
-app.delete('/books/:id', (req, res) => {
+// DELETE route to delete a book (admin only)
+app.delete('/books/:id', checkJwt, (req, res) => {
+  if (!req.user.realm_access.roles.includes('admin')) {
+    return res.status(403).send('Access denied');
+  }
   const { id } = req.params;
   connection.query('DELETE FROM books WHERE id = ?', id, (error, results) => {
     if (error) {

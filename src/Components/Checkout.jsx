@@ -20,6 +20,14 @@ const Checkout = ({ navigate }) => {
     },
   ];
 
+  const handleWishlist = (book) => {
+    // Add to wishlist logic here
+  };
+
+  const handleRemove = (book) => {
+    // Remove from cart logic here
+  };
+
   return (
     <div className="checkout-page">
       <header className="header">
@@ -36,8 +44,8 @@ const Checkout = ({ navigate }) => {
                 <p><strong>Author:</strong> {book.author}</p>
                 <p><strong>Price:</strong> {book.price}</p>
                 <div className="item-actions">
-                  <a href="#">❤️</a>
-                  <a href="#">🗑️</a>
+                  <button onClick={() => handleWishlist(book)}>❤️</button>
+                  <button onClick={() => handleRemove(book)}>🗑️</button>
                 </div>
               </div>
               <div className="item-quantity">
@@ -61,7 +69,7 @@ const Checkout = ({ navigate }) => {
       <footer>
         <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
       </footer>
-      <button onClick={() => navigate('home')}>Go to Home</button>
+      <button className="home-button" onClick={() => navigate('home')}>Go to Home</button>
     </div>
   );
 };

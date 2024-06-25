@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Home from './Components/Home';
-import SignIn from './Components/signin';
 import SignUp from './Components/SignUp';
 import Description from './Components/Description';
 import Contact from './Components/Contact';
@@ -8,6 +7,8 @@ import Checkout from './Components/Checkout';
 import ShippingAddress from './Components/ShippingAddress';
 import ConfirmOrder from './Components/ConfirmOrder';
 import OrderConfirmation from './Components/OrderConfirmation';
+import Edit from './Components/Edit';
+
 import './App.css'; // Combined CSS for global styles
 
 const App = () => {
@@ -31,7 +32,6 @@ const App = () => {
   return (
     <div>
       {currentPage === 'home' && <Home navigate={navigate} goBack={goBack} />}
-      {currentPage === 'signin' && <SignIn navigate={navigate} goBack={goBack} />}
       {currentPage === 'signup' && <SignUp navigate={navigate} goBack={goBack} />}
       {currentPage === 'description' && <Description book={selectedBook} navigate={navigate} goBack={goBack} />}
       {currentPage === 'contact' && <Contact navigate={navigate} goBack={goBack} />}
@@ -39,6 +39,7 @@ const App = () => {
       {currentPage === 'shippingaddress' && <ShippingAddress navigate={navigate} goBack={goBack} />}
       {currentPage === 'confirmorder' && <ConfirmOrder navigate={navigate} goBack={goBack} />}
       {currentPage === 'orderconfirmation' && <OrderConfirmation navigate={navigate} goBack={goBack} />}
+      {currentPage === 'edit' && <Edit book={selectedBook} navigate={navigate} goBack={goBack} />}
     </div>
   );
 };

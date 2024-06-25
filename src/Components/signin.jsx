@@ -3,6 +3,15 @@ import './SignIn.css';
 import logo from '../assets/logo.png'; // Ensure this is the correct path to your logo image
 
 const SignIn = ({ navigate }) => {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+  };
+
+  const handleResetPassword = () => {
+    // Handle reset password logic here
+  };
+
   return (
     <div className="signin-page">
       <header className="header">
@@ -14,7 +23,7 @@ const SignIn = ({ navigate }) => {
       <main>
         <div className="form-container">
           <h2>Sign in</h2>
-          <form className="signin-form">
+          <form className="signin-form" onSubmit={handleFormSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username*</label>
               <input type="text" id="username" placeholder="Username" required />
@@ -24,7 +33,7 @@ const SignIn = ({ navigate }) => {
               <input type="password" id="password" placeholder="Password" required />
             </div>
             <div className="form-group">
-              <a href="#" className="reset-password">Reset password</a>
+              <button type="button" className="reset-password" onClick={handleResetPassword}>Reset password</button>
             </div>
             <button type="submit" className="signin-button">Sign in</button>
             <div className="signup-option">
