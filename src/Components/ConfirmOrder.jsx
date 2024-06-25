@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ConfirmOrder.css';
 
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
-import paypalLogo from '../assets/Paypal.png';
-import creditCardLogo from '../assets/CC.png';
 
 const ConfirmOrder = ({ navigate, goBack }) => {
   const books = [
@@ -22,15 +20,30 @@ const ConfirmOrder = ({ navigate, goBack }) => {
     },
   ];
 
-  const handlePayment = () => {
-    // Handle payment logic here, then navigate to the OrderConfirmation page
-    navigate('orderconfirmation');
-  };
+  useEffect(() => {
+    window.paypal.Buttons({
+      createOrder: function (data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '44.46' // Replace with your total amount
+            }
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+          navigate('orderconfirmation');
+        });
+      }
+    }).render('#paypal-button-container');
+  }, [navigate]);
 
   return (
     <div className="confirm-order-page">
       <header className="header">
-        <div className="logo">📚 Reader’s Insel</div>
+        <div className="logo" onClick={() => navigate('home')}>📚 Reader’s Insel</div>
       </header>
       <main>
         <h2>Confirm Order</h2>
@@ -53,28 +66,13 @@ const ConfirmOrder = ({ navigate, goBack }) => {
         </div>
         <div className="payment-methods">
           <h2>Payment Method</h2>
-          <div className="method">
-            <input type="radio" id="paypal" name="paymentMethod" value="PayPal" defaultChecked />
-            <label htmlFor="paypal">PayPal</label>
-            <img src={paypalLogo} alt="PayPal" />
+            <div id="paypal-button-container"></div>
           </div>
-          <div className="method">
-            <input type="radio" id="invoice" name="paymentMethod" value="Invoice" />
-            <label htmlFor="invoice">Pay by Invoice</label>
-          </div>
-          <div className="method">
-            <input type="radio" id="creditCard" name="paymentMethod" value="CreditCard" />
-            <label htmlFor="creditCard">Credit/Debit Card</label>
-            <img src={creditCardLogo} alt="Credit/Debit Card" />
-          </div>
-        </div>
-        <button className="pay-button" onClick={handlePayment}>Pay</button>
         <button className="back-button" onClick={goBack}>Back</button>
       </main>
       <footer>
         <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
       </footer>
-      <button onClick={() => navigate('home')}>Go to Home</button>
     </div>
   );
 };
