@@ -23,7 +23,6 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
