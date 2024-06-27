@@ -121,13 +121,7 @@ html, body, #root {
     background-color: #bbb;
   }
   
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-top: 1px solid #ccc;
-    font-size: 14px;
-  }
+
   .back-button {
     padding: 10px 20px;
     border: none;

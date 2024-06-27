@@ -3,7 +3,7 @@ import './ConfirmOrder.css';
 
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
-
+import Footer from './Footer';
 const ConfirmOrder = ({ navigate, goBack }) => {
   const books = [
     {
@@ -70,9 +70,7 @@ const ConfirmOrder = ({ navigate, goBack }) => {
           </div>
         <button className="back-button" onClick={goBack}>Back</button>
       </main>
-      <footer>
-        <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

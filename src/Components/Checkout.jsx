@@ -3,6 +3,7 @@ import './Checkout.css';
 
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
+import Footer from './Footer';
 
 const Checkout = ({ navigate }) => {
   const books = [
@@ -69,7 +70,7 @@ const Checkout = ({ navigate }) => {
       <footer>
         <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
       </footer>
-      <button className="home-button" onClick={() => navigate('home')}>Go to Home</button>
+      <button onClick={() => navigate('home')}>Go to Home</button>
     </div>
   );
 };

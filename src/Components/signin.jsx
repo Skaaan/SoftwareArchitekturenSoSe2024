@@ -1,6 +1,7 @@
 import React from 'react';
 import './SignIn.css';
 import logo from '../assets/logo.png'; // Ensure this is the correct path to your logo image
+import Footer from './Footer';
 
 const SignIn = ({ navigate }) => {
   const handleFormSubmit = (e) => {
@@ -43,9 +44,7 @@ const SignIn = ({ navigate }) => {
           </form>
         </div>
       </main>
-      <footer>
-        <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

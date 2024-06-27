@@ -1,5 +1,6 @@
 import React from 'react';
 import './SignUp.css';
+import Footer from './Footer';
 
 const SignUp = ({ navigate }) => {
   return (
@@ -37,10 +38,8 @@ const SignUp = ({ navigate }) => {
             <button type="submit" className="signup-button">Sign Up</button>
           </form>
         </main>
-        <footer>
-          <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-        </footer>
         <button onClick={() => navigate('home')}>Go to Home</button>
+        <Footer />
       </div>
     </div>
   );

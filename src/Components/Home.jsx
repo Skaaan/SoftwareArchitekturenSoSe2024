@@ -5,7 +5,7 @@ import { useKeycloak } from '@react-keycloak/web';
 import './Home.css';
 import basket from '../assets/Basket.png';
 import logo from '../assets/logo.png';
-
+import Footer from './Footer';
 const Home = ({ navigate }) => {
   const { keycloak, initialized } = useKeycloak();
   const [books, setBooks] = useState([]);
@@ -146,12 +146,12 @@ const Home = ({ navigate }) => {
               )}
             </Card>
           ))}
-        </Box>
-      </Box>
-      <Box component="footer" className="footer" sx={{ textAlign: 'center', p: 2, bgcolor: '#e3dac9', borderTop: 1, borderColor: '#ccc', mt: 'auto', fontSize: '14px', color: '#666' }}>
-        &copy; 2024 Reader’s Insel. All rights reserved.
-      </Box>
-    </Box>
+        </div>
+      </main>
+      <footer>
+        <p>&copy; 2024 Reader’s Insel. All rights reserved.</p>
+      </footer>
+    </div>
   );
 };
 

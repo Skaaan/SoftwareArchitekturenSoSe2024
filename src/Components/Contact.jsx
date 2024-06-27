@@ -1,6 +1,6 @@
 import React from 'react';
 import './Contact.css';
-
+import Footer from './Footer';
 const Contact = ({ navigate }) => {
   return (
     <div className="contact-page">
@@ -32,9 +32,7 @@ const Contact = ({ navigate }) => {
           </div>
         </form>
       </main>
-      <footer>
-        <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-      </footer>
+      <Footer />
       <button onClick={() => navigate('home')}>Go to Home</button>
     </div>
   );
