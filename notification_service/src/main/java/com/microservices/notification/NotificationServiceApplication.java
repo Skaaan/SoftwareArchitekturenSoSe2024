@@ -1,4 +1,4 @@
-package SoftwareArchitekturenSoSe2024.notification_service;
+package com.microservices.notification;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.boot.SpringApplication;
