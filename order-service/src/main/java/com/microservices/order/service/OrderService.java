@@ -47,7 +47,6 @@ public class OrderService {
        String routingKey = "orderRoutingKey";
        org.springframework.amqp.core.Queue queue=rabbitMQConfig.queue(queueName);
        org.springframework.amqp.core.TopicExchange exchange= rabbitMQConfig.exchange(exchangeName);
-           // Create binding (implicitly creates queue and exchange if they do not exist)
         rabbitMQConfig.binding(
             queue, 
             exchange, 
