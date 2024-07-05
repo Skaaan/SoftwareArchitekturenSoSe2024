@@ -1,9 +1,9 @@
 package com.microservices.product.service;
 
 
+import com.microservices.product.config.RabbitMQConfig;
 import com.microservices.product.dto.ProductRequest;
 import com.microservices.product.dto.ProductResponse;
-import com.microservices.product.model.Order;
 import com.microservices.product.model.Product;
 import com.microservices.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class ProductService {
         productRepository.save(product);
         log.info("Product {} is saved", product.getId());
 
-        rabbitTemplate.convertAndSend(exchangeName, "product.routing.key", product.getSkuCode());
+        rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_ROUTING_KEY, product.getSkuCode());
         log.info("Product creation event published to RabbitMQ: {}", product.getSkuCode());
     }
 
@@ -73,7 +73,7 @@ public class ProductService {
     }
 
     private ProductResponse mapToProductResponse(Product product) {
-        ProductResponse productResponse = ProductResponse.builder()
+        return ProductResponse.builder()
                 .id(product.getId())
                 .skuCode(product.getSkuCode())
                 .name(product.getName())
@@ -81,13 +81,5 @@ public class ProductService {
                 .price(product.getPrice())
                 .imageLink(product.getImageLink())
                 .build();
-
-        log.info("Mapped product to response: {}", productResponse);
-        return productResponse;
-    }
-
-    public void sendOrderMessage(Order order) {
-        rabbitTemplate.convertAndSend(exchangeName, "order.routing.key", order);
-        log.info("Order event published to RabbitMQ: {}", order);
     }
 }
