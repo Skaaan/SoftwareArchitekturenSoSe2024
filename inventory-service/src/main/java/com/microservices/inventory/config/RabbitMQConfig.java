@@ -1,51 +1,56 @@
 package com.microservices.inventory.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
 
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
+    public static final String EXCHANGE_NAME = "stock.check.exchange";
+    public static final String REQUEST_QUEUE_NAME = "stock.check.request.queue";
+    public static final String RESPONSE_QUEUE_NAME = "stock.check.response.queue";
+    public static final String REQUEST_ROUTING_KEY = "stock.check.request.routing.key";
+    public static final String RESPONSE_ROUTING_KEY = "stock.check.response.routing.key";
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(exchangeName);
+        return new TopicExchange(EXCHANGE_NAME);
     }
 
     @Bean
-    public Queue inventoryQueue() {
-        return new Queue("inventory.queue");
-    }
-
-    @Bean
-    public Binding binding(Queue inventoryQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(inventoryQueue).to(exchange).with("inventory.routing.key");
-    }
-
-    @Bean
-    public Queue productQueue() {
-        return new Queue("product.queue");
-    }
-
-    @Bean
-    public Binding productBinding(Queue productQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(productQueue).to(exchange).with("product.routing.key");
+    public Queue stockCheckRequestQueue() {
+        return new Queue(REQUEST_QUEUE_NAME);
     }
 
     @Bean
     public Queue stockCheckResponseQueue() {
-        return new Queue("stock.check.response.queue");
+        return new Queue(RESPONSE_QUEUE_NAME);
     }
 
     @Bean
-    public Binding stockCheckResponseBinding(Queue stockCheckResponseQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(stockCheckResponseQueue).to(exchange).with("stock.check.response.routing.key");
+    public Binding bindingStockCheckRequestQueue(Queue stockCheckRequestQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(stockCheckRequestQueue).to(exchange).with(REQUEST_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindingStockCheckResponseQueue(Queue stockCheckResponseQueue, TopicExchange exchange) {
+        return BindingBuilder.bind(stockCheckResponseQueue).to(exchange).with(RESPONSE_ROUTING_KEY);
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
+        return rabbitTemplate;
     }
 }
