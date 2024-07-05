@@ -1,12 +1,12 @@
 import React from 'react';
-import './Contact.css';
+import Header from './Header';
 import Footer from './Footer';
+import './Contact.css';
+
 const Contact = ({ navigate }) => {
   return (
     <div className="contact-page">
-      <header className="header">
-        <div className="logo">📚 Reader’s Insel</div>
-      </header>
+      <Header navigate={navigate} />
       <main>
         <h2>Contact us</h2>
         <form className="contact-form">
@@ -33,7 +33,6 @@ const Contact = ({ navigate }) => {
         </form>
       </main>
       <Footer />
-      <button onClick={() => navigate('home')}>Go to Home</button>
     </div>
   );
 };

@@ -1,0 +1,65 @@
+/* Apply sans-serif font to the entire page */
+body, .header, .logo-container, .logo-text, .nav, .nav-button {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #e3dac9;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .logo-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .logo-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .logo-text:hover {
+    color: #555;
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-button {
+    margin: 0 10px;
+    background: none;
+    border: 2px solid #333;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  
+  .nav-button:hover {
+    background-color: #333;
+    color: #fff;
+    border-color: #fff;
+  }
+  
+  .basket {
+    width: 30px;
+    height: 30px;
+  }
+  

@@ -1,5 +1,7 @@
 import React from 'react';
+import Header from './Header';
 import './OrderConfirmation.css';
+import Footer from './Footer';
 
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
@@ -25,15 +27,13 @@ const OrderConfirmation = ({ navigate, goBack }) => {
 
   const shippingAddress = {
     name: "Olivia Johnson",
-    address: "Washington Street 7C, 1221, Princeton, NewJersey, United States",
+    address: "Washington Street 7C, 1221, Princeton, New Jersey, United States",
     method: "Standard"
   };
 
   return (
     <div className="order-confirmation-page">
-      <header className="header">
-        <div className="logo">📚 Reader’s Insel</div>
-      </header>
+      <Header navigate={navigate} />
       <main>
         <h2>Order Confirmation</h2>
         <p>Thanks for your purchase. Your order <strong>{orderNumber}</strong> has been confirmed!</p>
@@ -59,10 +59,7 @@ const OrderConfirmation = ({ navigate, goBack }) => {
         <p>Need help with your order? Reach out to our customer support team via <a href="#" onClick={() => navigate('contact')}>Contact Form</a>.</p>
         <button className="back-button" onClick={goBack}>Back</button>
       </main>
-      <footer>
-        <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-      </footer>
-      <button onClick={() => navigate('home')}>Go to Home</button>
+      <Footer />
     </div>
   );
 };

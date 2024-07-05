@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, IconButton, Card, CardContent, CardMedia, Typography, Box, InputAdornment, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import { useKeycloak } from '@react-keycloak/web';
 import './Home.css';
-import basket from '../assets/Basket.png';
-import logo from '../assets/logo.png';
 import Footer from './Footer';
+import Header from './Header';
 
 const Home = ({ navigate }) => {
   const { keycloak, initialized } = useKeycloak();
@@ -39,6 +39,11 @@ const Home = ({ navigate }) => {
     setFilteredBooks(filtered);
   };
 
+  const handleAddToCart = (book) => {
+    // Add to cart logic here
+    console.log(`Added ${book.title} to cart`);
+  };
+
   const handleEdit = (book) => {
     navigate('edit', book);
   };
@@ -68,27 +73,7 @@ const Home = ({ navigate }) => {
 
   return (
     <Box className="app" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#f5f7fa' }}>
-      <Box className="header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#e3dac9', borderBottom: 1, borderColor: '#ccc' }}>
-        <Box className="logo-container" onClick={() => navigate('home')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-          <img src={logo} alt="Logo" className="logo-img" style={{ width: 40, height: 40, marginRight: 10 }} />
-          <Typography className="logo-text" variant="h5" sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }}>Reader’s Insel</Typography>
-        </Box>
-        <Box className="nav">
-          {!keycloak.authenticated && (
-            <Button onClick={() => keycloak.login()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
-          )}
-          {!!keycloak.authenticated && (
-            <>
-              <Button onClick={() => keycloak.logout()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log out</Button>
-              <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
-            </>
-          )}
-          <Button onClick={() => navigate('contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
-          <IconButton onClick={() => navigate('checkout')} sx={{ mx: 1 }}>
-            <img src={basket} alt="Checkout" className='basket' style={{ width: 30, height: 30 }} />
-          </IconButton>
-        </Box>
-      </Box>
+      <Header navigate={navigate} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Box className="search-bar" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', my: 2 }}>
           <TextField 
@@ -121,7 +106,7 @@ const Home = ({ navigate }) => {
         </Box>
         <Box className="book-list" sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2, p: 2 }}>
           {filteredBooks.map(book => (
-            <Card key={book.id} className="book-card" onClick={() => navigate('description', book)} sx={{ position: 'relative', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)' } }}>
+            <Card key={book.id} className="book-card" sx={{ position: 'relative', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)' } }}>
               <CardMedia
                 component="img"
                 height="180"
@@ -136,8 +121,9 @@ const Home = ({ navigate }) => {
                 <Typography variant="body2" color="textSecondary">Published Year: {book.published_year}</Typography>
                 <Typography variant="body2" color="textSecondary">ISBN: {book.isbn}</Typography>
               </CardContent>
-              <Box className="read-description" sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: 'rgba(51, 51, 51, 0.8)', color: '#fff', fontSize: '18px', opacity: 0, transition: 'opacity 0.3s', boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.5)', '&:hover': { opacity: 1 } }}>
-                Read Description
+              <Box className="overlay" sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', bgcolor: 'rgba(51, 51, 51, 0.8)', color: '#fff', fontSize: '18px', opacity: 0, transition: 'opacity 0.3s', boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.5)', '&:hover': { opacity: 1 } }}>
+                <Button variant="contained" color="primary" onClick={() => navigate('description', book)} sx={{ mb: 1 }}>Read Description</Button>
+                <Button variant="contained" color="secondary" onClick={() => handleAddToCart(book)}>Add to Cart</Button>
               </Box>
               {keycloak.hasRealmRole('admin') && (
                 <Box className="admin-actions" sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>

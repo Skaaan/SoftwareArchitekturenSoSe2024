@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './Header';
 import './Checkout.css';
 
 import theKiteRunner from '../assets/TKR.jpg';
@@ -31,9 +32,7 @@ const Checkout = ({ navigate }) => {
 
   return (
     <div className="checkout-page">
-      <header className="header">
-        <div className="logo">📚 Reader’s Insel</div>
-      </header>
+      <Header navigate={navigate} />
       <main>
         <h2>Checkout</h2>
         <div className="cart-items">
@@ -67,10 +66,7 @@ const Checkout = ({ navigate }) => {
           <button className="checkout-button" onClick={() => navigate('shippingaddress')}>Checkout</button>
         </div>
       </main>
-      <footer>
-        <p>Copyright © 2024 Reader’s Insel®. All rights reserved.</p>
-      </footer>
-      <button onClick={() => navigate('home')}>Go to Home</button>
+      <Footer />
     </div>
   );
 };

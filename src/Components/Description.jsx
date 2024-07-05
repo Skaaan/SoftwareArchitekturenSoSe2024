@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from './Header';
 import './Description.css';
 
 const Description = ({ book, navigate }) => {
@@ -6,13 +7,10 @@ const Description = ({ book, navigate }) => {
 
   return (
     <div className="description-page">
-      <header className="description-header">
-        <div className="description-logo">📚 Reader’s Insel</div>
-        <button onClick={() => navigate('home')}>Back to Home</button>
-      </header>
+      <Header navigate={navigate} />
       <main>
         <div className="description-book-details">
-          <img src={book.image_url} alt={book.title} />
+          <img src={book.image_url} alt={book.title} className="book-image" />
           <div className="description-book-info">
             <h2>{book.title}</h2>
             <p><strong>Author:</strong> {book.author}</p>
