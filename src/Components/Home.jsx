@@ -6,6 +6,7 @@ import './Home.css';
 import basket from '../assets/Basket.png';
 import logo from '../assets/logo.png';
 import Footer from './Footer';
+
 const Home = ({ navigate }) => {
   const { keycloak, initialized } = useKeycloak();
   const [books, setBooks] = useState([]);
@@ -146,12 +147,10 @@ const Home = ({ navigate }) => {
               )}
             </Card>
           ))}
-        </div>
-      </main>
-      <footer>
-        <p>&copy; 2024 Reader’s Insel. All rights reserved.</p>
-      </footer>
-    </div>
+        </Box>
+      </Box>
+      <Footer />
+    </Box>
   );
 };
 
