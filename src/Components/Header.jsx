@@ -1,32 +1,94 @@
-import React from 'react';
-import { Box, Typography, Button, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Typography, Button, IconButton, TextField, InputAdornment } from '@mui/material';
 import { useKeycloak } from '@react-keycloak/web';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import logo from '../assets/logo.png';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
 
-const Header = ({ navigate }) => {
+const Header = ({ navigate, handleSearch }) => {
   const { keycloak } = useKeycloak();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isError, setIsError] = useState(false);
+
+  const onSearch = () => {
+    if (!searchQuery.trim()) {
+      setIsError(true);
+      return;
+    }
+    setIsError(false);
+    handleSearch(searchQuery);
+  };
 
   return (
     <Box className="header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#e3dac9', borderBottom: 1, borderColor: '#ccc' }}>
       <Box className="logo-container" onClick={() => navigate('home')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-        <img src={logo} alt="Logo" className="logo-img" style={{ width: 40, height: 40, marginRight: 10 }} />
+        <LibraryBooksIcon 
+          sx={{ 
+            color: '#333', 
+            width: 40, 
+            height: 40, 
+            marginRight: 1, 
+            transition: 'color 0.3s, transform 0.3s', 
+            '&:hover': { color: '#555', transform: 'scale(1.1)' } 
+          }} 
+        />
         <Typography className="logo-text" variant="h5" sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }}>Reader’s Insel</Typography>
+      </Box>
+      <Box className="search-bar" sx={{ width: '300px', mx: 2 }}>
+        <TextField 
+          fullWidth 
+          variant="outlined" 
+          placeholder="Search by Title, Author, or ISBN" 
+          value={searchQuery}
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            if (isError) setIsError(false);
+          }}
+          error={isError}
+          helperText={isError ? "Search input is required" : ""}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={onSearch}>
+                  <SearchIcon sx={{ color: '#666', transition: 'color 0.3s', '&:hover': { color: '#333' } }} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            bgcolor: '#f8f0dc',  // A lighter shade of the header color
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: '#333',
+                transition: 'border-color 0.3s',
+              },
+              '&:hover fieldset': {
+                borderColor: '#555',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#333',
+              },
+            },
+            '& .MuiInputBase-input': {
+              color: '#333',
+            },
+          }} 
+        />
       </Box>
       <Box className="nav">
         {!keycloak.authenticated && (
-          <Button onClick={() => keycloak.login()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
+          <Button onClick={() => keycloak.login()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
         )}
         {!!keycloak.authenticated && (
           <>
-            <Button onClick={() => keycloak.logout()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log out</Button>
-            <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
+            <Button onClick={() => keycloak.logout()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log out</Button>
+            <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
           </>
         )}
-        <Button onClick={() => navigate('contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
+        <Button onClick={() => navigate('contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
         <IconButton onClick={() => navigate('checkout')} sx={{ mx: 1 }}>
-          <ShoppingCartIcon style={{ color: '#333' }} />
+          <ShoppingCartIcon sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }} />
         </IconButton>
       </Box>
     </Box>

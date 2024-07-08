@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, IconButton, Card, CardContent, CardMedia, Typography, Box, InputAdornment, Button } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
+import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import { useKeycloak } from '@react-keycloak/web';
 import './Home.css';
 import Footer from './Footer';
@@ -10,9 +8,7 @@ import Header from './Header';
 const Home = ({ navigate }) => {
   const { keycloak, initialized } = useKeycloak();
   const [books, setBooks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:4002/books')
@@ -23,21 +19,6 @@ const Home = ({ navigate }) => {
       })
       .catch(error => console.error('Error fetching books:', error));
   }, []);
-
-  const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      setIsError(true);
-      return;
-    }
-    setIsError(false);
-    const query = searchQuery.toLowerCase();
-    const filtered = books.filter(book => 
-      book.title.toLowerCase().includes(query) || 
-      book.isbn.toLowerCase().includes(query) ||
-      book.author.toLowerCase().includes(query)
-    );
-    setFilteredBooks(filtered);
-  };
 
   const handleAddToCart = (book) => {
     // Add to cart logic here
@@ -75,35 +56,6 @@ const Home = ({ navigate }) => {
     <Box className="app" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#f5f7fa' }}>
       <Header navigate={navigate} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Box className="search-bar" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', my: 2 }}>
-          <TextField 
-            variant="outlined" 
-            placeholder="Search by Title, Author, or ISBN" 
-            value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              if (isError) setIsError(false);
-            }}
-            error={isError}
-            helperText={isError ? "Search input is required" : ""}
-            sx={{ width: 300 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton 
-                    onClick={handleSearch} 
-                    sx={{ padding: '0 12px', height: '100%', borderRadius: '0 5px 5px 0', transition: 'transform 0.2s, background-color 0.3s', '&:hover': { transform: 'scale(1.1)', backgroundColor: '#f0f0f0' } }}>
-                    <SearchIcon style={{ color: isError ? 'red' : '#3f51b5' }} />
-                  </IconButton>
-                </InputAdornment>
-              ),
-              style: {
-                borderTopRightRadius: 5,
-                borderBottomRightRadius: 5,
-              },
-            }}
-          />
-        </Box>
         <Box className="book-list" sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2, p: 2 }}>
           {filteredBooks.map(book => (
             <Card key={book.id} className="book-card" sx={{ position: 'relative', cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.3s', '&:hover': { transform: 'translateY(-5px)', boxShadow: '0 10px 15px rgba(0, 0, 0, 0.15)' } }}>
