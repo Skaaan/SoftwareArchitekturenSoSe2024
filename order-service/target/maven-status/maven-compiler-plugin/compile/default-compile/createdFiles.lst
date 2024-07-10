@@ -1,0 +1,10 @@
+com/microservices/order/OrderServiceApplication.class
+com/microservices/order/dto/OrderRequest.class
+com/microservices/order/service/OrderService.class
+com/microservices/common/StockCheckResponse.class
+com/microservices/order/controller/OrderController.class
+com/microservices/order/model/Order.class
+com/microservices/order/config/RabbitMQConfig.class
+com/microservices/order/model/OrderLineItems.class
+com/microservices/order/dto/OrderLineItemsDto.class
+com/microservices/order/repository/OrderRepository.class

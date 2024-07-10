@@ -1,0 +1,93 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - spring-network
+
+  mysql_inventory:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: inventory_service
+    ports:
+      - "3306:3306"   
+    networks:
+      - spring-network
+
+  mysql_order:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: order_service
+    ports:
+      - "3307:3306"
+    networks:
+      - spring-network
+
+  mysql_product:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: product_service
+    ports:
+      - "3308:3306"
+    networks:
+      - spring-network
+
+  service-discovery:
+    image: yasminehaidri/service-discovery:latest
+    ports:
+      - "8761:8761"
+    networks:
+      - spring-network
+
+  product-service:
+    image: yasminehaidri/product-service:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - spring-network
+    depends_on:
+      - service-discovery
+      - mysql_product
+      - rabbitmq
+
+  order-service:
+    image: yasminehaidri/order-service:latest
+    ports:
+      - "8083:8083"
+    networks:
+      - spring-network
+    depends_on:
+      - service-discovery
+      - mysql_order
+      - rabbitmq
+
+  inventory-service:
+    image: yasminehaidri/inventory-service:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - spring-network
+    depends_on:
+      - service-discovery
+      - mysql_inventory
+      - rabbitmq
+
+  api-gateway:
+    image: yasminehaidri/api-gateway:latest
+    ports:
+      - "9000:9000"
+    networks:
+      - spring-network
+    depends_on:
+      - service-discovery
+
+networks:
+  spring-network:
+    driver: bridge
