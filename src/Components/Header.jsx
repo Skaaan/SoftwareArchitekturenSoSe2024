@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, IconButton, TextField, InputAdornment } from '@mui/material';
-import { useKeycloak } from '@react-keycloak/web';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
 
 const Header = ({ navigate, handleSearch }) => {
-  const { keycloak } = useKeycloak();
   const [searchQuery, setSearchQuery] = useState('');
   const [isError, setIsError] = useState(false);
 
@@ -77,15 +75,8 @@ const Header = ({ navigate, handleSearch }) => {
         />
       </Box>
       <Box className="nav">
-        {!keycloak.authenticated && (
-          <Button onClick={() => keycloak.login()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
-        )}
-        {!!keycloak.authenticated && (
-          <>
-            <Button onClick={() => keycloak.logout()} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log out</Button>
-            <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
-          </>
-        )}
+        <Button onClick={() => navigate('login')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
+        <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
         <Button onClick={() => navigate('contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
         <IconButton onClick={() => navigate('checkout')} sx={{ mx: 1 }}>
           <ShoppingCartIcon sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }} />
