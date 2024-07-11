@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import './Home.css';
 import Footer from './Footer';
-import Header from './Header';
 import { getAllProducts, deleteProduct, addToCart } from './apiService.jsx';
 
 const Home = ({ navigate }) => {
@@ -53,7 +53,6 @@ const Home = ({ navigate }) => {
 
   return (
     <Box className="app" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#f5f7fa' }}>
-      <Header navigate={navigate} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Box className="book-list" sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 2, p: 2 }}>
           {filteredBooks.map(book => (
