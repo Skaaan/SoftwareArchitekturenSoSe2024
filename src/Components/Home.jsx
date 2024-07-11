@@ -3,7 +3,7 @@ import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/mate
 import './Home.css';
 import Footer from './Footer';
 import Header from './Header';
-import { getAllProducts, deleteProduct } from './apiService.jsx';
+import { getAllProducts, deleteProduct, addToCart } from './apiService.jsx';
 
 const Home = ({ navigate }) => {
   const [books, setBooks] = useState([]);
@@ -23,9 +23,18 @@ const Home = ({ navigate }) => {
     fetchBooks();
   }, []);
 
-  const handleAddToCart = (book) => {
-    // Add to cart logic here
-    console.log(`Added ${book.name} to cart`);
+  const handleAddToCart = async (book) => {
+    try {
+      const orderLineItemsDto = {
+        skuCode: book.skuCode,
+        price: book.price,
+        quantity: 1, // Assuming quantity is 1 for simplicity
+      };
+      await addToCart(orderLineItemsDto);
+      console.log(`Added ${book.name} to cart`);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   const handleEdit = (book) => {
