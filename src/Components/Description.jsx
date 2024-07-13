@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
-import Header from './Header';
+import { useLocation } from 'react-router-dom';
 import './Description.css';
+import Footer from './Footer';
 
-const Description = ({ book, navigate }) => {
+const Description = () => {
+  const location = useLocation();
+  const { book } = location.state || {};
+
   useEffect(() => {
   }, [book]);
 
@@ -10,7 +14,6 @@ const Description = ({ book, navigate }) => {
 
   return (
     <div className="description-page">
-      <Header navigate={navigate} />
       <main>
         <div className="description-book-details">
           <img src={book.imageLink} alt={book.name} className="book-image" />
@@ -24,9 +27,7 @@ const Description = ({ book, navigate }) => {
           </div>
         </div>
       </main>
-      <footer className="description-footer">
-        <p>&copy; 2024 Reader’s Insel. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

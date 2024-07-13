@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Components/Home';
 import SignUp from './Components/SignUp';
@@ -14,12 +14,6 @@ import Header from './Components/Header';
 import './App.css'; // Combined CSS for global styles
 
 const App = () => {
-  const [selectedBook, setSelectedBook] = useState(null);
-
-  const handleBookSelect = (book) => {
-    setSelectedBook(book);
-  };
-
   const handleSearch = (query) => {
     // Implement your search functionality here
     console.log("Search query:", query);
@@ -29,15 +23,15 @@ const App = () => {
     <Router>
       <Header handleSearch={handleSearch} />
       <Routes>
-        <Route path="/" element={<Home onBookSelect={handleBookSelect} />} />
+        <Route path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/description/:id" element={<Description selectedBook={selectedBook} />} />
+        <Route path="/description/:id" element={<Description />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/shippingaddress" element={<ShippingAddress />} />
         <Route path="/confirmorder" element={<ConfirmOrder />} />
         <Route path="/orderconfirmation" element={<OrderConfirmation />} />
-        <Route path="/edit/:id" element={<Edit selectedBook={selectedBook} />} />
+        <Route path="/edit/:id" element={<Edit />} />
       </Routes>
     </Router>
   );

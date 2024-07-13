@@ -16,7 +16,7 @@ export const getAllProducts = async () => {
 // Function to create a product
 export const createProduct = async (productRequest) => {
     try {
-        const response = await axios.post(`${API_GATEWAY_URL}/products`, productRequest);
+        const response = await axios.post(`${API_GATEWAY_URL}/api/product`, productRequest);
         return response.data;
     } catch (error) {
         console.error("Error creating product:", error);
@@ -27,7 +27,7 @@ export const createProduct = async (productRequest) => {
 // Function to update a product
 export const updateProduct = async (id, productRequest) => {
     try {
-        const response = await axios.put(`${API_GATEWAY_URL}/products/${id}`, productRequest);
+        const response = await axios.put(`${API_GATEWAY_URL}/api/product/${id}`, productRequest);
         return response.data;
     } catch (error) {
         console.error("Error updating product:", error);
@@ -38,47 +38,54 @@ export const updateProduct = async (id, productRequest) => {
 // Function to delete a product
 export const deleteProduct = async (id) => {
     try {
-        const response = await axios.delete(`${API_GATEWAY_URL}/products/${id}`);
+        const response = await axios.delete(`${API_GATEWAY_URL}/api/product/${id}`);
         return response.data;
     } catch (error) {
         console.error("Error deleting product:", error);
         throw error;
-    }    
+    }
 };
-export const addToCart = async (book) => {
-    try {
-      const response = await axios.post(`${API_GATEWAY_URL}/cart`, book);
-      return response.data;
-    } catch (error) {
-      throw new Error('Error adding to cart: ' + error.message);
-    }
-  };
-  
-  export const removeFromCart = async (bookId) => {
-    try {
-      const response = await axios.delete(`${API_GATEWAY_URL}/cart/${bookId}`);
-      return response.data;
-    } catch (error) {
-      throw new Error('Error removing from cart: ' + error.message);
-    }
-  };
-  
-  export const updateCartItemQuantity = async (bookId, quantity) => {
-    try {
-      const response = await axios.put(`${API_GATEWAY_URL}/cart/${bookId}`, { quantity });
-      return response.data;
-    } catch (error) {
-      throw new Error('Error updating cart item quantity: ' + error.message);
-    }
-  };
 
-// Function to get cart items
-export const getCartItems = async () => {
+// Function to add an item to the basket
+export const addToBasket = async (isbn, quantity) => {
     try {
-        const response = await axios.get(`${API_GATEWAY_URL}/api/order/cart`);
+        const response = await axios.post(`${API_GATEWAY_URL}/api/baskets/add`, { isbn, quantity });
         return response.data;
     } catch (error) {
-        console.error("Error fetching cart items:", error);
+        console.error("Error adding to basket:", error);
+        throw new Error('Error adding to basket: ' + error.message);
+    }
+};
+
+// Function to remove an item from the basket
+export const removeFromBasket = async (isbn) => {
+    try {
+        const response = await axios.post(`${API_GATEWAY_URL}/api/basket/remove`, { isbn });
+        return response.data;
+    } catch (error) {
+        console.error("Error removing from basket:", error);
+        throw new Error('Error removing from basket: ' + error.message);
+    }
+};
+
+// Function to update the quantity of an item in the basket
+export const updateBasketItemQuantity = async (isbn, quantity) => {
+    try {
+        const response = await axios.put(`${API_GATEWAY_URL}/api/basket/update`, { isbn, quantity });
+        return response.data;
+    } catch (error) {
+        console.error("Error updating basket item quantity:", error);
+        throw new Error('Error updating basket item quantity: ' + error.message);
+    }
+};
+
+// Function to get cart items
+export const getBasketItems = async () => {
+    try {
+        const response = await axios.get(`${API_GATEWAY_URL}/api/baskets`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching basket items:", error);
         throw error;
     }
 };

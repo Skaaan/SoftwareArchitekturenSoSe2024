@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, IconButton, TextField, InputAdornment } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
+import { getBasketItems } from './apiService'; // Import the API function to get basket items
 
-const Header = ({ navigate, handleSearch }) => {
+const Header = ({ handleSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isError, setIsError] = useState(false);
+  const navigate = useNavigate(); // useNavigate hook
 
   const onSearch = () => {
     if (!searchQuery.trim()) {
@@ -18,9 +21,19 @@ const Header = ({ navigate, handleSearch }) => {
     handleSearch(searchQuery);
   };
 
+  const handleBasketClick = async () => {
+    try {
+      const basketItems = await getBasketItems();
+      console.log('Basket items:', basketItems); // You can handle the basket items as needed
+      navigate('/checkout', { state: { basketItems } }); // Pass basket items to the checkout page
+    } catch (error) {
+      console.error('Error fetching basket items:', error);
+    }
+  };
+
   return (
     <Box className="header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#e3dac9', borderBottom: 1, borderColor: '#ccc' }}>
-      <Box className="logo-container" onClick={() => navigate('home')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+      <Box className="logo-container" onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
         <LibraryBooksIcon 
           sx={{ 
             color: '#333', 
@@ -75,10 +88,10 @@ const Header = ({ navigate, handleSearch }) => {
         />
       </Box>
       <Box className="nav">
-        <Button onClick={() => navigate('login')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
-        <Button onClick={() => navigate('profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
-        <Button onClick={() => navigate('contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
-        <IconButton onClick={() => navigate('checkout')} sx={{ mx: 1 }}>
+        <Button onClick={() => navigate('/login')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
+        <Button onClick={() => navigate('/profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
+        <Button onClick={() => navigate('/contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
+        <IconButton onClick={handleBasketClick} sx={{ mx: 1 }}>
           <ShoppingCartIcon sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }} />
         </IconButton>
       </Box>

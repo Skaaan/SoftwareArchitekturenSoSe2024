@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import './Home.css';
 import Footer from './Footer';
-import { getAllProducts, deleteProduct, addToCart } from './apiService.jsx';
+import { getAllProducts, deleteProduct, addToBasket } from './apiService';
 
-const Home = ({ navigate }) => {
+const Home = () => {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -26,11 +27,11 @@ const Home = ({ navigate }) => {
   const handleAddToCart = async (book) => {
     try {
       const orderLineItemsDto = {
-        skuCode: book.skuCode,
+        isbn: book.isbn,
         price: book.price,
         quantity: 1, // Assuming quantity is 1 for simplicity
       };
-      await addToCart(orderLineItemsDto);
+      await addToBasket(orderLineItemsDto);
       console.log(`Added ${book.name} to cart`);
     } catch (error) {
       console.error('Error adding item to cart:', error);
@@ -38,7 +39,7 @@ const Home = ({ navigate }) => {
   };
 
   const handleEdit = (book) => {
-    navigate('edit', book);
+    navigate(`/edit/${book.id}`);
   };
 
   const handleDelete = async (bookId) => {
@@ -49,6 +50,10 @@ const Home = ({ navigate }) => {
     } catch (error) {
       console.error('Error deleting book:', error);
     }
+  };
+
+  const handleDescription = (book) => {
+    navigate(`/description/${book.id}`, { state: { book } });
   };
 
   return (
@@ -72,7 +77,7 @@ const Home = ({ navigate }) => {
                 <Typography variant="body2" color="textSecondary">ISBN: {book.isbn}</Typography>
               </CardContent>
               <Box className="overlay" sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', bgcolor: 'rgba(51, 51, 51, 0.8)', color: '#fff', fontSize: '18px', opacity: 0, transition: 'opacity 0.3s', boxShadow: 'inset 0 0 10px rgba(0, 0, 0, 0.5)', '&:hover': { opacity: 1 } }}>
-                <Button variant="contained" color="primary" onClick={() => navigate('description', book)} sx={{ mb: 1 }}>Read Description</Button>
+                <Button variant="contained" color="primary" onClick={() => handleDescription(book)} sx={{ mb: 1 }}>Read Description</Button>
                 <Button variant="contained" color="secondary" onClick={() => handleAddToCart(book)}>Add to Cart</Button>
               </Box>
               <Box className="admin-actions" sx={{ display: 'flex', justifyContent: 'space-between', p: 1 }}>
