@@ -8,37 +8,32 @@ services:
       - "15672:15672"
     
 
-  mysql_inventory:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: order_service
+  mongo_inventory:
+    container_name: mongo_inventory
+    image: mongo:latest
+    restart: always
     ports:
-      - "3306:3306"
+      - "27017:27017"
     volumes:
-      - ./mysql_inventory_data:/var/lib/mysql
+      - ./mongo-inventory-data:/data/db
 
-  mysql_order:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: order_service
+  mongo_order:
+    container_name: mongo_order
+    image: mongo:latest
+    restart: always
     ports:
-      - "3307:3306"
+      - "27018:27017"
     volumes:
-      - ./mysql_order_data:/var/lib/mysql
+      - ./mongo-order-data:/data/db
 
-
-
-  mysql_product:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: order_service
+  mongo_product:
+    container_name: mongo_product
+    image: mongo:latest
+    restart: always
     ports:
-      - "3308:3306"
+      - "27019:27017"
     volumes:
-      - ./mysql_product_data:/var/lib/mysql
+      - ./mongo-product-data:/data/db
 
   service-discovery:
     image: yasminehaidri/service-discovery:latest
@@ -54,7 +49,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - service-discovery
-      - mysql_product
+      - mongo_product
       - rabbitmq
 
   order-service:
@@ -64,7 +59,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - mysql_order
+      - mongo_order
       - service-discovery
       - rabbitmq
 
@@ -72,12 +67,14 @@ services:
   inventory-service:
     image: yasminehaidri/inventory-service:latest
     ports:
-      - "8082:8082"
+      - "8081:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./config/application-docker.properties:/config/application-docker.properties  # Mount external config file if necessary
     depends_on:
       - service-discovery
-      - mysql_inventory
+      - mongo_inventory
       - rabbitmq
 
   api-gateway:
