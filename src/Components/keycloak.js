@@ -1,11 +1,12 @@
+// keycloak.js
 import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
-  url: 'http://localhost:8080',
+  url: 'http://localhost:8180/',
   realm: 'bookStore',
   clientId: 'react-client',
+  enableLogging: true,
+  checkLoginIframe: false, 
 });
-
-console.log('Keycloak instance created', keycloak);
 
 export default keycloak;

@@ -1,14 +1,23 @@
+// Home.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useKeycloak } from '@react-keycloak/web';
 import { Card, CardContent, CardMedia, Typography, Box, Button } from '@mui/material';
 import './Home.css';
 import Footer from './Footer';
 import { getAllProducts, deleteProduct, addToBasket } from './apiService';
 
 const Home = () => {
+  const { keycloak, initialized } = useKeycloak();
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (initialized && !keycloak.authenticated) {
+      keycloak.login();
+    }
+  }, [initialized, keycloak]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -29,7 +38,7 @@ const Home = () => {
       const orderLineItemsDto = {
         isbn: book.isbn,
         price: book.price,
-        quantity: 1, // Assuming quantity is 1 for simplicity
+        quantity: 1, 
       };
       await addToBasket(orderLineItemsDto);
       console.log(`Added ${book.name} to cart`);
@@ -56,6 +65,10 @@ const Home = () => {
     navigate(`/description/${book.id}`, { state: { book } });
   };
 
+  if (!initialized) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Box className="app" sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', bgcolor: '#f5f7fa' }}>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
@@ -65,8 +78,8 @@ const Home = () => {
               <CardMedia
                 component="img"
                 height="180"
-                image={book.imageLink} // Assuming imageLink is the field for the image URL
-                alt={book.name} // Assuming name is the field for the book title
+                image={book.imageLink} 
+                alt={book.name} 
                 sx={{ objectFit: 'cover' }}
               />
               <CardContent sx={{ textAlign: 'center' }}>

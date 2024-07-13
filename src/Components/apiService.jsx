@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_GATEWAY_URL = 'http://localhost:9000';
+const API_GATEWAY_URL = 'http://localhost:9001';
 
 // Function to get all products
 export const getAllProducts = async () => {
