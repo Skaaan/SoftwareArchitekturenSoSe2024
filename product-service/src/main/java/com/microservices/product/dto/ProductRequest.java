@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {
+    private String isbn;
     private String name;
     private String description;
     private BigDecimal price;
@@ -19,5 +20,5 @@ public class ProductRequest {
     private String author;
     private String genre;
     private String publishedYear;
-    private String isbn;
+    private int quantity; // New field
 }

@@ -1,15 +1,12 @@
 package com.microservices.order.service;
 
-import com.microservices.order.dto.OrderLineItemsDto;
+import com.microservices.order.dto.BasketItemDto;
 import com.microservices.order.dto.OrderRequest;
-import com.microservices.common.StockCheckResponse;
 import com.microservices.order.model.Order;
 import com.microservices.order.model.OrderLineItems;
 import com.microservices.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,47 +19,32 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final AmqpTemplate rabbitTemplate;
-
-    @Value("${rabbitmq.exchange.name}")
-    private String exchangeName;
 
     public String placeOrder(OrderRequest orderRequest) {
-        boolean allProductsInStock = orderRequest.getOrderLineItemsDtoList().stream()
-                .allMatch(this::isProductInStock);
+        // Create a new order
+        Order order = new Order();
+        order.setOrderNumber(UUID.randomUUID().toString());
 
-        if (allProductsInStock) {
-            Order order = new Order();
-            order.setOrderNumber(UUID.randomUUID().toString());
-            List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList().stream()
-                    .map(this::mapToEntity)
-                    .collect(Collectors.toList());
-            order.setOrderLineItemsList(orderLineItemsList);
+        // Map BasketItemDto to OrderLineItems
+        List<OrderLineItems> orderLineItemsList = orderRequest.getItems().stream()
+                .map(this::mapToEntity)
+                .collect(Collectors.toList());
 
-            orderRepository.save(order);
-            return "Order placed successfully!";
-        } else {
-            throw new RuntimeException("Cannot place order. This product is not in stock.");
-        }
+        // Set order items
+        order.setOrderLineItemsList(orderLineItemsList);
+
+        // Save the order to the repository
+        orderRepository.save(order);
+
+        // Log and return success message
+        log.info("Order placed successfully with order number: {}", order.getOrderNumber());
+        return "Order placed successfully!";
     }
 
-    private boolean isProductInStock(OrderLineItemsDto orderLineItemsDto) {
-        try {
-            String skuCode = orderLineItemsDto.getSkuCode();
-            rabbitTemplate.convertAndSend(exchangeName, "stock.check.request.routing.key", skuCode);
-            StockCheckResponse response = (StockCheckResponse) rabbitTemplate.receiveAndConvert("stock.check.response.queue", 5000);
-            return response != null && response.isInStock();
-        } catch (Exception e) {
-            log.error("Error checking stock for SKU code: {}", orderLineItemsDto.getSkuCode(), e);
-            return false;
-        }
-    }
-
-    private OrderLineItems mapToEntity(OrderLineItemsDto dto) {
+    private OrderLineItems mapToEntity(BasketItemDto basketItemDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
-        orderLineItems.setSkuCode(dto.getSkuCode());
-        orderLineItems.setPrice(dto.getPrice());
-        orderLineItems.setQuantity(dto.getQuantity());
+        orderLineItems.setProductId(basketItemDto.getProductId());
+        orderLineItems.setQuantity(basketItemDto.getQuantity());
         return orderLineItems;
     }
 }

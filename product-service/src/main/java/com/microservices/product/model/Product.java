@@ -20,6 +20,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String isbn;
     private String name;
     private String description;
     private BigDecimal price;
@@ -27,5 +28,5 @@ public class Product {
     private String author;
     private String genre;
     private String publishedYear;
-    private String isbn;
+    private int quantity; // New field
 }

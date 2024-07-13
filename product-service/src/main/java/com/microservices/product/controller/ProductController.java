@@ -30,15 +30,15 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{isbn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable String id) {
-        productService.deleteProduct(id);
+    public void deleteProduct(@PathVariable String isbn) {
+        productService.deleteProduct(isbn);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{isbn}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductResponse updateProduct(@PathVariable String id, @RequestBody ProductRequest productRequest) {
-        return productService.updateProduct(id, productRequest);
+    public ProductResponse updateProduct(@PathVariable String isbn, @RequestBody ProductRequest productRequest) {
+        return productService.updateProduct(isbn, productRequest);
     }
 }

@@ -26,22 +26,33 @@ public class ProductService {
     private String exchangeName;
 
     public void createProduct(ProductRequest productRequest) {
-        Product product = Product.builder()
-                .name(productRequest.getName())
-                .description(productRequest.getDescription())
-                .price(productRequest.getPrice())
-                .imageLink(productRequest.getImageLink())
-                .author(productRequest.getAuthor())
-                .genre(productRequest.getGenre())
-                .publishedYear(productRequest.getPublishedYear())
-                .isbn(productRequest.getIsbn())
-                .build();
+        log.info("Creating product with ISBN: {}", productRequest.getIsbn());
+        Optional<Product> existingProductOpt = productRepository.findByIsbn(productRequest.getIsbn());
 
-        productRepository.save(product);
-        log.info("Product {} is saved", product.getId());
+        if (existingProductOpt.isPresent()) {
+            Product existingProduct = existingProductOpt.get();
+            existingProduct.setQuantity(existingProduct.getQuantity() + 1);
+            productRepository.save(existingProduct);
+            log.info("Product {} quantity increased to {}", existingProduct.getId(), existingProduct.getQuantity());
+        } else {
+            Product product = Product.builder()
+                    .name(productRequest.getName())
+                    .description(productRequest.getDescription())
+                    .price(productRequest.getPrice())
+                    .imageLink(productRequest.getImageLink())
+                    .author(productRequest.getAuthor())
+                    .genre(productRequest.getGenre())
+                    .publishedYear(productRequest.getPublishedYear())
+                    .isbn(productRequest.getIsbn())
+                    .quantity(1) // Initialize quantity
+                    .build();
 
-        rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_ROUTING_KEY, product.getName());
-        log.info("Product creation event published to RabbitMQ: {}", product.getName());
+            productRepository.save(product);
+            log.info("Product {} is saved", product.getId());
+        }
+
+        rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_ROUTING_KEY, productRequest.getIsbn());
+        log.info("Product creation event published to RabbitMQ: {}", productRequest.getIsbn());
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -87,6 +98,7 @@ public class ProductService {
                 .genre(product.getGenre())
                 .publishedYear(product.getPublishedYear())
                 .isbn(product.getIsbn())
+                .quantity(product.getQuantity()) // Include quantity
                 .build();
     }
 }
