@@ -43,7 +43,7 @@ public class OrderService {
             order.setOrderLineItemsList(orderLineItemsList);
 
             orderRepository.save(order);
-            rabbitTemplate.convertAndSend("notification.request.routing.key", order.getOrderNumber());
+            rabbitTemplate.convertAndSend("order.exchange","notification.request.routing.key", order.getOrderNumber());
             return "Order placed successfully!";
         } else {
             throw new RuntimeException("Cannot place order. This product is not in stock.");

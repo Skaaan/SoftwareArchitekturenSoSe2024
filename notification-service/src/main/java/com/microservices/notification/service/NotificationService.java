@@ -21,7 +21,7 @@ public class NotificationService {
     @RabbitListener(queues = "order.confirmation.queue")
     public void handleOrderPlaced(String orderDetails) {
         log.info("Received request for email confirmation for order: {}", orderDetails);
-        sendConfirmationEmail("user@example.com", orderDetails);
+        sendConfirmationEmail("yasmine.haidri@student.htw-berlin.de", orderDetails);
     }
 
 

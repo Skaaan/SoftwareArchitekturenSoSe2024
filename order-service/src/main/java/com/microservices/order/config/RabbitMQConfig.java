@@ -29,6 +29,7 @@ public class RabbitMQConfig {
         return new TopicExchange(EXCHANGE_NAME);
     }
 
+
     @Bean
     public TopicExchange notificationExchange() {
         return new TopicExchange(NOTIFICATION_EXCHANGE_NAME);
@@ -55,7 +56,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Binding notificationRequestQueue(Queue notificationRequestQueue, TopicExchange notificationExchange) {
+    public Binding bindingNotificationRequestQueue(Queue notificationRequestQueue, TopicExchange notificationExchange) {
         return BindingBuilder.bind(notificationRequestQueue).to(notificationExchange).with(ORDER_REQUEST_ROUTING_KEY);
     }
 
