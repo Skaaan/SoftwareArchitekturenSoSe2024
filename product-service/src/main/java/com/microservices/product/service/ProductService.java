@@ -44,7 +44,7 @@ public class ProductService {
                     .genre(productRequest.getGenre())
                     .publishedYear(productRequest.getPublishedYear())
                     .isbn(productRequest.getIsbn())
-                    .quantity(1) // Initialize quantity
+                    .quantity(1)
                     .build();
 
             productRepository.save(product);
@@ -60,9 +60,18 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
-    public void deleteProduct(String id) {
-        productRepository.deleteById(Long.valueOf(id));
-        log.info("Product {} is deleted", id);
+
+    public void deleteProduct(String isbn) {
+        Optional<Product> productOpt = productRepository.findByIsbn(isbn);
+        if (productOpt.isPresent()) {
+            productRepository.delete(productOpt.get());
+            log.info("Product with ISBN {} is deleted", isbn);
+
+            rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_DELETE_ROUTING_KEY, isbn);
+            log.info("Product delete event published to RabbitMQ: {}", isbn);
+        } else {
+            throw new RuntimeException("Product not found");
+        }
     }
 
     public ProductResponse updateProduct(String id, ProductRequest productRequest) {
