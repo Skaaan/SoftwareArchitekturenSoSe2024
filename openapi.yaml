@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: Your Project API
+  description: API documentation for your project
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /example:
+    get:
+      summary: Get example data
+      description: Retrieve a list of example data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    value:
+                      type: number
+  /example/{id}:
+    get:
+      summary: Get example by ID
+      description: Retrieve a specific example by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  value:
+                    type: number
+        '404':
+          description: Example not found
