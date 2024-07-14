@@ -89,4 +89,19 @@ public class InventoryService {
         }
     }
 
+    @RabbitListener(queues = "${rabbitmq.queue.product-delete}")
+    public void handleProductDelete(String isbn) {
+        log.info("Received product delete event for ISBN code: {}", isbn);
+
+        Optional<Inventory> inventoryOptional = inventoryRepository.findByIsbn(isbn);
+        if (inventoryOptional.isPresent()) {
+            inventoryRepository.delete(inventoryOptional.get());
+            log.info("Deleted inventory for ISBN code: {}", isbn);
+        } else {
+            log.warn("No inventory found for ISBN code: {}", isbn);
+        }
+    }
+
+
+
 }
