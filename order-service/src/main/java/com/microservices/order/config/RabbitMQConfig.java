@@ -17,9 +17,26 @@ public class RabbitMQConfig {
     public static final String REQUEST_ROUTING_KEY = "stock.check.request.routing.key";
     public static final String RESPONSE_ROUTING_KEY = "stock.check.response.routing.key";
 
+    public static final String NOTIFICATION_EXCHANGE_NAME = "order.exchange";
+    public static final String NOTIFICATION_REQUEST_QUEUE_NAME = "order.confirmation.queue";
+    public static final String ORDER_RESPONSE_QUEUE_NAME = "order.response.queue";
+    public static final String ORDER_REQUEST_ROUTING_KEY = "notification.request.routing.key";
+    public static final String ORDER_RESPONSE_ROUTING_KEY = "order.response.routing.key";
+
+
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public TopicExchange notificationExchange() {
+        return new TopicExchange(NOTIFICATION_EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Queue notificationRequestQueue() {
+        return new Queue(NOTIFICATION_REQUEST_QUEUE_NAME);
     }
 
     @Bean
@@ -35,6 +52,11 @@ public class RabbitMQConfig {
     @Bean
     public Binding bindingStockCheckRequestQueue(Queue stockCheckRequestQueue, TopicExchange exchange) {
         return BindingBuilder.bind(stockCheckRequestQueue).to(exchange).with(REQUEST_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding notificationRequestQueue(Queue notificationRequestQueue, TopicExchange notificationExchange) {
+        return BindingBuilder.bind(notificationRequestQueue).to(notificationExchange).with(ORDER_REQUEST_ROUTING_KEY);
     }
 
     @Bean

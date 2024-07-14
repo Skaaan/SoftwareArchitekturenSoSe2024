@@ -27,6 +27,9 @@ public class OrderService {
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
 
+   // private String noti
+
+
     public String placeOrder(OrderRequest orderRequest) {
         boolean allProductsInStock = orderRequest.getOrderLineItemsDtoList().stream()
                 .allMatch(this::isProductInStock);
@@ -40,6 +43,7 @@ public class OrderService {
             order.setOrderLineItemsList(orderLineItemsList);
 
             orderRepository.save(order);
+            rabbitTemplate.convertAndSend("notification.request.routing.key", order.getOrderNumber());
             return "Order placed successfully!";
         } else {
             throw new RuntimeException("Cannot place order. This product is not in stock.");

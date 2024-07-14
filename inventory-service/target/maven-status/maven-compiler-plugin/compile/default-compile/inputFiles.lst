@@ -1,0 +1,7 @@
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/config/RabbitMQConfig.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/controller/InventoryController.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/InventoryServiceApplication.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/repository/InventoryRepository.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/service/InventoryService.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/common/StockCheckResponse.java
+/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/model/Inventory.java
