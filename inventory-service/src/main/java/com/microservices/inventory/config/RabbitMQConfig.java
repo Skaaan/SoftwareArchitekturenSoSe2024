@@ -16,10 +16,17 @@ public class RabbitMQConfig {
     public static final String RESPONSE_QUEUE_NAME = "stock.check.response.queue";
     public static final String REQUEST_ROUTING_KEY = "stock.check.request.routing.key";
     public static final String RESPONSE_ROUTING_KEY = "stock.check.response.routing.key";
+    public static final String PRODUCT_QUEUE_NAME = "stock.check.product.queue";
+
 
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange(EXCHANGE_NAME);
+    }
+
+    @Bean
+    public Queue productQueue() {
+        return new Queue(PRODUCT_QUEUE_NAME);
     }
 
     @Bean
