@@ -43,6 +43,6 @@ public class BasketController {
         log.debug("Checkout initiated for userId: {}", userId);
         Basket basket = basketService.getBasket(userId);
         basketService.clearBasket();
-        return restTemplate.postForObject("http://localhost:9000/api/order", basket, String.class);
+        return restTemplate.postForObject("http://localhost:9001/api/order", basket, String.class);
     }
 }

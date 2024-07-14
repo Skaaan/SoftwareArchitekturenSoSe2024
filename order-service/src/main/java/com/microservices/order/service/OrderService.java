@@ -21,22 +21,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     public String placeOrder(OrderRequest orderRequest) {
-        // Create a new order
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
 
-        // Map BasketItemDto to OrderLineItems
         List<OrderLineItems> orderLineItemsList = orderRequest.getItems().stream()
                 .map(this::mapToEntity)
                 .collect(Collectors.toList());
 
-        // Set order items
         order.setOrderLineItemsList(orderLineItemsList);
 
-        // Save the order to the repository
         orderRepository.save(order);
 
-        // Log and return success message
         log.info("Order placed successfully with order number: {}", order.getOrderNumber());
         return "Order placed successfully!";
     }

@@ -23,7 +23,7 @@ public class BasketService {
     private final RabbitTemplate rabbitTemplate;
 
     private static final String DEFAULT_USER_ID = "default-user";
-    private static final String INVENTORY_SERVICE_URL = "http://localhost:9000/api/inventory";
+    private static final String INVENTORY_SERVICE_URL = "http://localhost:9001/api/inventory";
     public Basket getBasket(String userId) {
         log.debug("Getting basket for userId: {}", userId);
         return basketRepository.findByUserId(DEFAULT_USER_ID).orElseGet(this::createBasket);
