@@ -21,5 +21,5 @@ public class ProductResponse {
     private String author;
     private String genre;
     private String publishedYear;
-    private int quantity; // New field
+    private int quantity;
 }
