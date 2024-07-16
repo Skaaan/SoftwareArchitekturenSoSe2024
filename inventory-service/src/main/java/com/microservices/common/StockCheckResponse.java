@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StockCheckResponse {
-    private String skuCode;
+    private String isbn;
     private boolean inStock;
 }
-

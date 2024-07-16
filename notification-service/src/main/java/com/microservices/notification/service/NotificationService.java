@@ -29,7 +29,7 @@ public class NotificationService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo("yasmine.haidri@student.htw-berlin.de");
         message.setSubject("Order Confirmation");
-        message.setText("Your order has been placed successfully. Order details: " + "orderDetails");
+        message.setText("Hello,\nYour order " + orderDetails + " has been placed successfully.");
         message.setFrom(fromEmail);
 
         javaMailSender.send(message);

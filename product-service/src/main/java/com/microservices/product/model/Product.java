@@ -1,17 +1,11 @@
 package com.microservices.product.model;
-
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "product")
+@Document(collection = "product")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,11 +13,15 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String skuCode;
+    private String id;
+
+    private String isbn;
     private String name;
     private String description;
     private BigDecimal price;
     private String imageLink;
+    private String author;
+    private String genre;
+    private String publishedYear;
+    private int quantity; // New field
 }

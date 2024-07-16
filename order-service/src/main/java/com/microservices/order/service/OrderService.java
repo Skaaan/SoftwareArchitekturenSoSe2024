@@ -1,6 +1,6 @@
 package com.microservices.order.service;
 
-import com.microservices.order.dto.OrderLineItemsDto;
+import com.microservices.order.dto.BasketItemDto;
 import com.microservices.order.dto.OrderRequest;
 import com.microservices.common.StockCheckResponse;
 import com.microservices.order.model.Order;
@@ -27,46 +27,28 @@ public class OrderService {
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
 
-   // private String noti
-
-
     public String placeOrder(OrderRequest orderRequest) {
-        boolean allProductsInStock = orderRequest.getOrderLineItemsDtoList().stream()
-                .allMatch(this::isProductInStock);
+        // Create a new order
+        Order order = new Order();
+        order.setOrderNumber(UUID.randomUUID().toString());
 
-        if (allProductsInStock) {
-            Order order = new Order();
-            order.setOrderNumber(UUID.randomUUID().toString());
-            List<OrderLineItems> orderLineItemsList = orderRequest.getOrderLineItemsDtoList().stream()
-                    .map(this::mapToEntity)
-                    .collect(Collectors.toList());
-            order.setOrderLineItemsList(orderLineItemsList);
+        // Map BasketItemDto to OrderLineItems
+        List<OrderLineItems> orderLineItemsList = orderRequest.getItems().stream()
+                .map(this::mapToEntity)
+                .collect(Collectors.toList());
 
-            orderRepository.save(order);
-            rabbitTemplate.convertAndSend("order.exchange","notification.request.routing.key", order.getOrderNumber());
-            return "Order placed successfully!";
-        } else {
-            throw new RuntimeException("Cannot place order. This product is not in stock.");
-        }
+        // Set order items
+        order.setOrderLineItemsList(orderLineItemsList);
+
+        orderRepository.save(order);
+        rabbitTemplate.convertAndSend("order.exchange","notification.request.routing.key", order.getOrderNumber());
+        return "Order placed successfully!";
     }
 
-    private boolean isProductInStock(OrderLineItemsDto orderLineItemsDto) {
-        try {
-            String skuCode = orderLineItemsDto.getSkuCode();
-            rabbitTemplate.convertAndSend(exchangeName, "stock.check.request.routing.key", skuCode);
-            StockCheckResponse response = (StockCheckResponse) rabbitTemplate.receiveAndConvert("stock.check.response.queue", 5000);
-            return response != null && response.isInStock();
-        } catch (Exception e) {
-            log.error("Error checking stock for SKU code: {}", orderLineItemsDto.getSkuCode(), e);
-            return false;
-        }
-    }
-
-    private OrderLineItems mapToEntity(OrderLineItemsDto dto) {
+    private OrderLineItems mapToEntity(BasketItemDto basketItemDto) {
         OrderLineItems orderLineItems = new OrderLineItems();
-        orderLineItems.setSkuCode(dto.getSkuCode());
-        orderLineItems.setPrice(dto.getPrice());
-        orderLineItems.setQuantity(dto.getQuantity());
+        orderLineItems.setProductId(basketItemDto.getProductId());
+        orderLineItems.setQuantity(basketItemDto.getQuantity());
         return orderLineItems;
     }
 }

@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    
+
+  mongo_inventory:
+    container_name: mongo_inventory
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-inventory-data:/data/db
+
+  mongo_order:
+    container_name: mongo_order
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo-order-data:/data/db
+
+  mongo_product:
+    container_name: mongo_product
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - ./mongo-product-data:/data/db
+
+  mongo_basket:
+    container_name: mongo_basket
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27020:27017"
+    volumes:
+      - ./mongo-basket-data:/data/db
+
+
+  service-discovery:
+    image: yasminehaidri/service-discovery:latest
+
+  product-service:
+    image: yasminehaidri/product-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-discovery
+      - mongo_product
+      - rabbitmq
+
+  basket-service:
+    image: yasminehaidri/basket-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-discovery
+      - mongo_basket
+      - rabbitmq
+
+
+  order-service:
+    image: yasminehaidri/order-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - mongo_order
+      - service-discovery
+      - rabbitmq
+
+  notification-service:
+    image: yasminehaidri/notification-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-discovery
+      - rabbitmq
+
+  inventory-service:
+    image: yasminehaidri/inventory-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./config/application-docker.properties:/config/application-docker.properties 
+    depends_on:
+      - service-discovery
+      - mongo_inventory
+      - rabbitmq
+
+  api-gateway:
+    image: yasminehaidri/api-gateway:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - service-discovery

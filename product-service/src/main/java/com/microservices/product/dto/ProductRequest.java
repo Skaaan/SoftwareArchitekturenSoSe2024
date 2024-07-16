@@ -12,9 +12,13 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {
-    private String skuCode;
+    private String isbn;
     private String name;
     private String description;
     private BigDecimal price;
     private String imageLink;
+    private String author;
+    private String genre;
+    private String publishedYear;
+    private int quantity; // New field
 }

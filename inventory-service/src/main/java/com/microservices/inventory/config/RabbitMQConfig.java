@@ -14,10 +14,10 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_NAME = "stock.check.exchange";
     public static final String REQUEST_QUEUE_NAME = "stock.check.request.queue";
     public static final String RESPONSE_QUEUE_NAME = "stock.check.response.queue";
+    public static final String PRODUCT_QUEUE_NAME = "stock.check.product.queue"; // Added this line
     public static final String REQUEST_ROUTING_KEY = "stock.check.request.routing.key";
-    public static final String PRODUCT_QUEUE_NAME = "stock.check.product.queue";
     public static final String RESPONSE_ROUTING_KEY = "stock.check.response.routing.key";
-    public static final String PRODUCT_ROUTING_KEY = "stock.check.product.routing.key";
+    public static final String PRODUCT_ROUTING_KEY = "stock.check.product.routing.key"; // Added this line
 
     @Bean
     public TopicExchange exchange() {

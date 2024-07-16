@@ -1,6 +1,5 @@
 package com.microservices.product.service;
 
-
 import com.microservices.product.config.RabbitMQConfig;
 import com.microservices.product.dto.ProductRequest;
 import com.microservices.product.dto.ProductResponse;
@@ -9,9 +8,8 @@ import com.microservices.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,19 +26,33 @@ public class ProductService {
     private String exchangeName;
 
     public void createProduct(ProductRequest productRequest) {
-        Product product = Product.builder()
-                .skuCode(productRequest.getSkuCode())
-                .name(productRequest.getName())
-                .description(productRequest.getDescription())
-                .price(productRequest.getPrice())
-                .imageLink(productRequest.getImageLink())
-                .build();
+        log.info("Creating product with ISBN: {}", productRequest.getIsbn());
+        Optional<Product> existingProductOpt = productRepository.findByIsbn(productRequest.getIsbn());
 
-        productRepository.save(product);
-        log.info("Product {} is saved", product.getId());
+        if (existingProductOpt.isPresent()) {
+            Product existingProduct = existingProductOpt.get();
+            existingProduct.setQuantity(existingProduct.getQuantity() + 1);
+            productRepository.save(existingProduct);
+            log.info("Product {} quantity increased to {}", existingProduct.getId(), existingProduct.getQuantity());
+        } else {
+            Product product = Product.builder()
+                    .name(productRequest.getName())
+                    .description(productRequest.getDescription())
+                    .price(productRequest.getPrice())
+                    .imageLink(productRequest.getImageLink())
+                    .author(productRequest.getAuthor())
+                    .genre(productRequest.getGenre())
+                    .publishedYear(productRequest.getPublishedYear())
+                    .isbn(productRequest.getIsbn())
+                    .quantity(1) // Initialize quantity
+                    .build();
 
-        rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_ROUTING_KEY, product.getSkuCode());
-        log.info("Product creation event published to RabbitMQ: {}", product.getSkuCode());
+            productRepository.save(product);
+            log.info("Product {} is saved", product.getId());
+        }
+
+        rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_ROUTING_KEY, productRequest.getIsbn());
+        log.info("Product creation event published to RabbitMQ: {}", productRequest.getIsbn());
     }
 
     public List<ProductResponse> getAllProducts() {
@@ -58,11 +70,14 @@ public class ProductService {
 
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
-            product.setSkuCode(productRequest.getSkuCode());
             product.setName(productRequest.getName());
             product.setDescription(productRequest.getDescription());
             product.setPrice(productRequest.getPrice());
             product.setImageLink(productRequest.getImageLink());
+            product.setAuthor(productRequest.getAuthor());
+            product.setGenre(productRequest.getGenre());
+            product.setPublishedYear(productRequest.getPublishedYear());
+            product.setIsbn(productRequest.getIsbn());
             productRepository.save(product);
 
             log.info("Product {} is updated", product.getId());
@@ -75,11 +90,15 @@ public class ProductService {
     private ProductResponse mapToProductResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())
-                .skuCode(product.getSkuCode())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .imageLink(product.getImageLink())
+                .author(product.getAuthor())
+                .genre(product.getGenre())
+                .publishedYear(product.getPublishedYear())
+                .isbn(product.getIsbn())
+                .quantity(product.getQuantity()) // Include quantity
                 .build();
     }
 }

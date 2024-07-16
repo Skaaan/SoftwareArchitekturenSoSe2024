@@ -12,11 +12,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponse {
-    private Long  id;
-    private String skuCode;
+    private String id;
+    private String isbn;
     private String name;
     private String description;
     private BigDecimal price;
     private String imageLink;
-
+    private String author;
+    private String genre;
+    private String publishedYear;
+    private int quantity; // New field
 }

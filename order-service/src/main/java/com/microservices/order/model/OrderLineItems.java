@@ -4,21 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "t_order_line_items")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "order_line_items")
 public class OrderLineItems {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String skuCode;
-    private BigDecimal price;
+    private String id;
+    private Long productId;
     private Integer quantity;
 }

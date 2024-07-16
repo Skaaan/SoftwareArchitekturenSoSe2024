@@ -1,8 +1,0 @@
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/repository/ProductRepository.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/service/ProductService.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/controller/ProductController.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/model/Product.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductRequest.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/ProductServiceApplication.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/config/RabbitMQConfig.java
-/Users/yasminehaidri/Repos/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductResponse.java

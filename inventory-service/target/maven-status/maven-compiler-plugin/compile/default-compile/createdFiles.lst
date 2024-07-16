@@ -1,7 +1,0 @@
-com/microservices/inventory/repository/InventoryRepository.class
-com/microservices/common/StockCheckResponse.class
-com/microservices/inventory/InventoryServiceApplication.class
-com/microservices/inventory/service/InventoryService.class
-com/microservices/inventory/model/Inventory.class
-com/microservices/inventory/controller/InventoryController.class
-com/microservices/inventory/config/RabbitMQConfig.class
