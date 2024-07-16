@@ -74,8 +74,8 @@ public class ProductService {
         }
     }
 
-    public ProductResponse updateProduct(String id, ProductRequest productRequest) {
-        Optional<Product> optionalProduct = productRepository.findById(Long.valueOf(id));
+    public ProductResponse updateProduct(String isbn, ProductRequest productRequest) {
+        Optional<Product> optionalProduct = productRepository.findByIsbn(isbn);
 
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
@@ -86,7 +86,8 @@ public class ProductService {
             product.setAuthor(productRequest.getAuthor());
             product.setGenre(productRequest.getGenre());
             product.setPublishedYear(productRequest.getPublishedYear());
-            product.setIsbn(productRequest.getIsbn());
+            product.setQuantity(productRequest.getQuantity());
+
             productRepository.save(product);
 
             log.info("Product {} is updated", product.getId());
@@ -107,7 +108,7 @@ public class ProductService {
                 .genre(product.getGenre())
                 .publishedYear(product.getPublishedYear())
                 .isbn(product.getIsbn())
-                .quantity(product.getQuantity()) // Include quantity
+                .quantity(product.getQuantity())
                 .build();
     }
 }
