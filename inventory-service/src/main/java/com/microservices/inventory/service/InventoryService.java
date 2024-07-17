@@ -1,5 +1,6 @@
 package com.microservices.inventory.service;
 
+import com.microservices.common.StockCheckResponse;
 import com.microservices.inventory.model.Inventory;
 import com.microservices.inventory.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ public class InventoryService {
 
     @Value("${rabbitmq.exchange.name}")
     private String exchangeName;
+
+    @Value("${rabbitmq.queue.stock-check-response}")
+    private String stockCheckResponseRoutingKey;
 
     @Transactional(readOnly = true)
     public boolean isInStock(String isbn, int quantity) {
@@ -55,8 +59,9 @@ public class InventoryService {
     @RabbitListener(queues = "${rabbitmq.queue.stock-check-request}")
     public void receiveStockCheckRequest(String isbn) {
         log.info("Received stock check request for ISBN code: {}", isbn);
-        boolean inStock = isInStock(isbn, 1);  // Assuming checking for at least 1 quantity
-        // Send response (implement sending logic)
+        boolean inStock = isInStock(isbn, 1);
+        StockCheckResponse response = new StockCheckResponse(isbn, inStock);
+        rabbitTemplate.convertAndSend(exchangeName, stockCheckResponseRoutingKey, response);
     }
 
     @RabbitListener(queues = "${rabbitmq.queue.product}")
