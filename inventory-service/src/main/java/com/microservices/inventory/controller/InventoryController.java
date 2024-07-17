@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryController {
 
     private final InventoryService inventoryService;
-
     @GetMapping("/{ISBN}")
     @ResponseStatus(HttpStatus.OK)
     public boolean isInStock(@PathVariable("ISBN") String ISBN, @RequestParam int quantity) {
