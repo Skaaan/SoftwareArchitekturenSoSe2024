@@ -3,7 +3,6 @@ package com.microservices.basket.service;
 import com.microservices.basket.model.Basket;
 import com.microservices.basket.model.BasketItem;
 import com.microservices.basket.repository.BasketRepository;
-import com.microservices.common.InventoryUpdateRequest;
 import com.microservices.common.StockCheckResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
