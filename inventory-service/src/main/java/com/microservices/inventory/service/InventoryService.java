@@ -26,7 +26,7 @@ public class InventoryService {
 
     @Transactional(readOnly = true)
     public boolean isInStock(String isbn, int quantity) {
-        log.debug("Checking inventory for ISBN: {}", isbn);
+        log.debug("Checking inventory for ISBN: {} with quantity: {}", isbn, quantity);
         Optional<Inventory> inventoryOptional = inventoryRepository.findByIsbn(isbn);
         boolean inStock = inventoryOptional.isPresent() && inventoryOptional.get().getQuantity() >= quantity;
         log.debug("ISBN: {} is in stock: {}", isbn, inStock);

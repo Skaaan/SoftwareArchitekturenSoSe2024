@@ -60,13 +60,18 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
-    public void deleteProduct(String id) {
-        productRepository.deleteById(Long.valueOf(id));
-        log.info("Product {} is deleted", id);
+    public void deleteProduct(String isbn) {
+        Optional<Product> productOpt = productRepository.findByIsbn(isbn);
+        if (productOpt.isPresent()) {
+            productRepository.deleteById(productOpt.get().getId());
+            log.info("Product with ISBN {} is deleted", isbn);
+        } else {
+            log.warn("Product with ISBN {} not found", isbn);
+        }
     }
 
-    public ProductResponse updateProduct(String id, ProductRequest productRequest) {
-        Optional<Product> optionalProduct = productRepository.findById(Long.valueOf(id));
+    public ProductResponse updateProduct(String isbn, ProductRequest productRequest) {
+        Optional<Product> optionalProduct = productRepository.findByIsbn(isbn);
 
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
@@ -80,7 +85,7 @@ public class ProductService {
             product.setIsbn(productRequest.getIsbn());
             productRepository.save(product);
 
-            log.info("Product {} is updated", product.getId());
+            log.info("Product with ISBN {} is updated", isbn);
             return mapToProductResponse(product);
         } else {
             throw new RuntimeException("Product not found");

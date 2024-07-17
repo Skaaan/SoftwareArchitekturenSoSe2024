@@ -1,6 +1,5 @@
 package com.microservices.product.controller;
 
-
 import com.microservices.product.dto.ProductRequest;
 import com.microservices.product.dto.ProductResponse;
 import com.microservices.product.service.ProductService;
@@ -13,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
+
 public class ProductController {
 
     private final ProductService productService;

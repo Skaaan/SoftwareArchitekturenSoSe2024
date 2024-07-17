@@ -11,5 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderRequest {
     private String userId;
+    private String userName;
+    private String userEmail;
     private List<BasketItemDto> items;
 }
