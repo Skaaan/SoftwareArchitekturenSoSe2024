@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface InventoryRepository extends JpaRepository<Inventory, Long> {
-    Optional<Inventory> findByIsbn(String isbn); // Use 'findByIsbn' to match the property name in the entity
+    Optional<Inventory> findByIsbn(String isbn);
 }
