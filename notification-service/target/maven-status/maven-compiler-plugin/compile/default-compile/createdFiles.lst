@@ -1,0 +1,3 @@
+com/microservices/notification/service/NotificationService.class
+com/microservices/notification/config/RabbitMQConfig.class
+com/microservices/notification/NotificationServiceApplication.class
