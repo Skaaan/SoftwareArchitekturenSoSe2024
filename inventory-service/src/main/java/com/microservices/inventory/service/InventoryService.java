@@ -26,7 +26,7 @@ public class InventoryService {
 
     @Transactional(readOnly = true)
     public boolean isInStock(String isbn, int quantity) {
-        log.debug("Checking inventory for ISBN: {}", isbn);
+        log.debug("Checking inventory for ISBN: {} with quantity: {}", isbn, quantity);
         Optional<Inventory> inventoryOptional = inventoryRepository.findByIsbn(isbn);
         boolean inStock = inventoryOptional.isPresent() && inventoryOptional.get().getQuantity() >= quantity;
         log.debug("ISBN: {} is in stock: {}", isbn, inStock);
@@ -88,20 +88,5 @@ public class InventoryService {
             }
         }
     }
-
-    @RabbitListener(queues = "${rabbitmq.queue.product-delete}")
-    public void handleProductDelete(String isbn) {
-        log.info("Received product delete event for ISBN code: {}", isbn);
-
-        Optional<Inventory> inventoryOptional = inventoryRepository.findByIsbn(isbn);
-        if (inventoryOptional.isPresent()) {
-            inventoryRepository.delete(inventoryOptional.get());
-            log.info("Deleted inventory for ISBN code: {}", isbn);
-        } else {
-            log.warn("No inventory found for ISBN code: {}", isbn);
-        }
-    }
-
-
 
 }

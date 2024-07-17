@@ -1,7 +1,9 @@
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/controller/InventoryController.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/model/Inventory.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/InventoryServiceApplication.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/service/InventoryService.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/common/StockCheckResponse.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/repository/InventoryRepository.java
-/Users/daniyalkhan/Desktop/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/config/RabbitMQConfig.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/repository/InventoryRepository.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/dto/InventoryUpdateRequest.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/InventoryServiceApplication.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/common/StockCheckResponse.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/config/SecurityConfig.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/controller/InventoryController.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/model/Inventory.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/config/RabbitMQConfig.java
+/Users/yasminehaidri/SoftwareArchitekturenSoSe2024/inventory-service/src/main/java/com/microservices/inventory/service/InventoryService.java

@@ -1,24 +1,25 @@
 package com.microservices.inventory.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "t_inventory")
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Document(collection = "t_inventory")
 public class Inventory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
+    @Setter
+    @Getter
     private String isbn;
-    private Integer quantity;
+    @Setter
+    @Getter
+    private int quantity;
+
 }

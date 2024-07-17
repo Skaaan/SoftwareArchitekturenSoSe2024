@@ -4,7 +4,10 @@ import com.microservices.basket.model.Basket;
 import com.microservices.basket.service.BasketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,33 +19,51 @@ public class BasketController {
 
     private final BasketService basketService;
     private final RestTemplate restTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     @GetMapping
-    public Basket getBasket(@RequestParam(value = "userId", defaultValue = "default-user") String userId) {
-        log.debug("Fetching basket for userId: {}", userId);
-        return basketService.getBasket(userId);
+    public Basket getBasket() {
+        log.debug("Fetching basket for logged-in user");
+        return basketService.getBasket();
     }
 
     @PostMapping("/add")
-    public Basket addItemToBasket(@RequestParam(value = "userId", defaultValue = "default-user") String userId,
-                                  @RequestBody BasketItemRequest basketItemRequest) {
-        log.debug("Adding item to basket for userId: {} with ISBN: {} and quantity: {}",
-                userId, basketItemRequest.getIsbn(), basketItemRequest.getQuantity());
-        return basketService.addItemToBasket(userId, basketItemRequest.getIsbn(), basketItemRequest.getQuantity());
-    }
-    @DeleteMapping("/remove")
-    public Basket removeItemFromBasket(@RequestParam(value = "userId", defaultValue = "default-user") String userId,
-                                       @RequestParam String isbn) {
-        log.debug("Removing item from basket for userId: {} with ISBN: {}", userId, isbn);
-        return basketService.removeItemFromBasket(userId, isbn);
+    public Basket addItemToBasket(@RequestBody BasketItemRequest basketItemRequest) {
+        log.debug("Adding item to basket with ISBN: {} and quantity: {}",
+                basketItemRequest.getIsbn(), basketItemRequest.getQuantity());
+        return basketService.addItemToBasket(basketItemRequest.getIsbn(), basketItemRequest.getQuantity());
     }
 
-    @PostMapping("/checkout/{userId}")
+    @DeleteMapping("/remove")
+    public Basket removeItemFromBasket(@RequestParam String isbn) {
+        log.debug("Removing item from basket with ISBN: {}", isbn);
+        return basketService.removeItemFromBasket(isbn);
+    }
+
+    @PostMapping("/checkout")
     @ResponseStatus(HttpStatus.CREATED)
-    public String checkout(@PathVariable String userId) {
-        log.debug("Checkout initiated for userId: {}", userId);
-        Basket basket = basketService.getBasket(userId);
+    public String checkout() {
+        String userEmail = getLoggedInUserEmail();
+        String userName = getLoggedInUserName();
+        log.debug("Checkout initiated for user: {} ({})", userEmail, userName);
+
+        Basket basket = basketService.getBasket();
         basketService.clearBasket();
-        return restTemplate.postForObject("http://localhost:9001/api/order", basket, String.class);
+
+        // Send order details, user email, and user name to the notification service
+        String orderDetails = restTemplate.postForObject("http://localhost:9001/api/order", basket, String.class);
+        rabbitTemplate.convertAndSend("order.confirmation.queue", userEmail + ";" + userName + ";" + orderDetails);
+
+        return orderDetails;
+    }
+
+    private String getLoggedInUserEmail() {
+        Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getClaim("email");
+    }
+
+    private String getLoggedInUserName() {
+        Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getClaim("name");
     }
 }

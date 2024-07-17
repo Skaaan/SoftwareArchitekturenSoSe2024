@@ -1,25 +1,23 @@
 package com.microservices.order.model;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
-@Table(name = "t_orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "t_orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
+
     private String orderNumber;
-    @OneToMany(cascade = CascadeType.ALL)
+
     private List<OrderLineItems> orderLineItemsList;
 }

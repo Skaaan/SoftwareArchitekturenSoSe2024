@@ -1,0 +1,4 @@
+*.jar filter=lfs diff=lfs merge=lfs -text
+mongo-basket-data/journal/WiredTigerLog* filter=lfs diff=lfs merge=lfs -text
+mongo-inventory-data/journal/WiredTigerLog* filter=lfs diff=lfs merge=lfs -text
+mongo-order-data/journal/WiredTigerLog* filter=lfs diff=lfs merge=lfs -text

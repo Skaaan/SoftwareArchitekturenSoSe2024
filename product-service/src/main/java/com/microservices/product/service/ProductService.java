@@ -44,7 +44,7 @@ public class ProductService {
                     .genre(productRequest.getGenre())
                     .publishedYear(productRequest.getPublishedYear())
                     .isbn(productRequest.getIsbn())
-                    .quantity(1)
+                    .quantity(1) // Initialize quantity
                     .build();
 
             productRepository.save(product);
@@ -60,22 +60,18 @@ public class ProductService {
         return products.stream().map(this::mapToProductResponse).toList();
     }
 
-
     public void deleteProduct(String isbn) {
         Optional<Product> productOpt = productRepository.findByIsbn(isbn);
         if (productOpt.isPresent()) {
-            productRepository.delete(productOpt.get());
+            productRepository.deleteById(Long.valueOf(productOpt.get().getId()));
             log.info("Product with ISBN {} is deleted", isbn);
-
-            rabbitTemplate.convertAndSend(exchangeName, RabbitMQConfig.PRODUCT_DELETE_ROUTING_KEY, isbn);
-            log.info("Product delete event published to RabbitMQ: {}", isbn);
         } else {
-            throw new RuntimeException("Product not found");
+            log.warn("Product with ISBN {} not found", isbn);
         }
     }
 
-    public ProductResponse updateProduct(String id, ProductRequest productRequest) {
-        Optional<Product> optionalProduct = productRepository.findById(Long.valueOf(id));
+    public ProductResponse updateProduct(String isbn, ProductRequest productRequest) {
+        Optional<Product> optionalProduct = productRepository.findByIsbn(isbn);
 
         if (optionalProduct.isPresent()) {
             Product product = optionalProduct.get();
@@ -89,7 +85,7 @@ public class ProductService {
             product.setIsbn(productRequest.getIsbn());
             productRepository.save(product);
 
-            log.info("Product {} is updated", product.getId());
+            log.info("Product with ISBN {} is updated", isbn);
             return mapToProductResponse(product);
         } else {
             throw new RuntimeException("Product not found");

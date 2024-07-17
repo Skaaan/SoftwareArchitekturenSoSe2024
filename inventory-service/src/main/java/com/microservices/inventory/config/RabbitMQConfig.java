@@ -18,8 +18,6 @@ public class RabbitMQConfig {
     public static final String REQUEST_ROUTING_KEY = "stock.check.request.routing.key";
     public static final String RESPONSE_ROUTING_KEY = "stock.check.response.routing.key";
     public static final String PRODUCT_ROUTING_KEY = "stock.check.product.routing.key"; // Added this line
-    public static final String PRODUCT_DELETE_ROUTING_KEY = "product.deleted";
-    public static final String PRODUCT_DELETE_QUEUE_NAME = "stock.check.product.delete.queue";
 
     @Bean
     public TopicExchange exchange() {
@@ -54,16 +52,6 @@ public class RabbitMQConfig {
     @Bean
     public Binding bindingStockCheckProductQueue(Queue stockCheckProductQueue, TopicExchange exchange) { // Added this method
         return BindingBuilder.bind(stockCheckProductQueue).to(exchange).with(PRODUCT_ROUTING_KEY);
-    }
-
-    @Bean
-    public Queue productDeleteQueue() {
-        return new Queue(PRODUCT_DELETE_QUEUE_NAME);
-    }
-
-    @Bean
-    public Binding bindingProductDeleteQueue(Queue productDeleteQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(productDeleteQueue).to(exchange).with(PRODUCT_DELETE_ROUTING_KEY);
     }
 
     @Bean

@@ -16,8 +16,6 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_NAME = "stock.check.exchange";
     public static final String PRODUCT_QUEUE_NAME = "stock.check.product.queue";
     public static final String PRODUCT_ROUTING_KEY = "product.created";
-    public static final String PRODUCT_DELETE_ROUTING_KEY = "product.deleted";
-    public static final String PRODUCT_DELETE_QUEUE_NAME = "stock.check.product.delete.queue";
 
     @Bean
     public Queue productQueue() {
@@ -32,16 +30,6 @@ public class RabbitMQConfig {
     @Bean
     public Binding bindingProductQueue(Queue productQueue, TopicExchange exchange) {
         return BindingBuilder.bind(productQueue).to(exchange).with(PRODUCT_ROUTING_KEY);
-    }
-
-    @Bean
-    public Queue productDeleteQueue() {
-        return new Queue(PRODUCT_DELETE_QUEUE_NAME);
-    }
-
-    @Bean
-    public Binding bindingProductDeleteQueue(Queue productDeleteQueue, TopicExchange exchange) {
-        return BindingBuilder.bind(productDeleteQueue).to(exchange).with(PRODUCT_DELETE_ROUTING_KEY);
     }
 
     @Bean
