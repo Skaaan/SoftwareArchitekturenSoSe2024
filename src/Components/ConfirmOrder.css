@@ -1,0 +1,118 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-color: #f9f3e5;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.ConfirmOrder_confirm-order-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.ConfirmOrder_main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.ConfirmOrder_cart-items {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.ConfirmOrder_cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.ConfirmOrder_cart-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ConfirmOrder_cart-item img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 20px rgb(169 155 112);
+}
+
+.ConfirmOrder_items-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ConfirmOrder_items-details h3 {
+  margin: 0;
+}
+
+.ConfirmOrder_items-details p {
+  margin: 5px 0;
+}
+
+.ConfirmOrder_summary {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  text-align: right;
+}
+
+.ConfirmOrder_summary p {
+  margin: 10px 0;
+}
+
+.ConfirmOrder_shipping-details {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  text-align: left;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.ConfirmOrder_shipping-details p {
+  margin: 5px 0;
+}
+
+.ConfirmOrder_payment-methods {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.ConfirmOrder_back-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ccc;
+  color: #333;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.ConfirmOrder_back-button:hover {
+  background-color: #bbb;
+}
