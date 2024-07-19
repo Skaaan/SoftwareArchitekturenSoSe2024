@@ -1,0 +1,268 @@
+/* General styles for the entire page */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333; /* Default text color */
+}
+
+body {
+  background-color: #f0f0f0; /* Light background color */
+}
+
+/* Container for the entire application */
+.Home_app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
+}
+
+/* Header section containing logo, search bar, and navigation */
+.Home_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #a2957b; /* Header background color */
+  height: 4rem;
+  box-shadow: 0px 5px 8px #877e6b; /* Header shadow */
+}
+
+.Home_logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.Home_logo-icon {
+  color: #333;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.Home_logo-icon:hover {
+  color: #555;
+  transform: scale(1.1);
+}
+
+.Home_logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.Home_logo-text:hover {
+  color: #555;
+}
+
+/* Search bar wrapper */
+.Home_search-bar-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Search bar input field */
+.Home_search-bar {
+  display: flex;
+  align-items: center;
+  width: 30rem;
+  margin-left: 8rem;
+}
+
+.Home_search-field .MuiOutlinedInput-root {
+  border-radius: 25px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 50px;
+  border-color: transparent;
+}
+
+.Home_search-field .MuiOutlinedInput-root:hover fieldset {
+  border-color: transparent;
+}
+
+.Home_search-field .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: transparent;
+}
+
+.Home_search-field .MuiInputBase-input {
+  color: #666;
+  padding-left: 16px;
+  padding-right: 0px;
+}
+
+/* Round button for search */
+.Home_round-button {
+  background: white;
+  height: 50px;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Navigation section */
+.Home_nav {
+  display: flex;
+  align-items: center;
+}
+
+.Home_nav-button {
+  margin: 0 10px;
+  background: none;
+  border: 2px solid #333;
+  color: #333;
+  font-size: 16px;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.Home_nav-button:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #fff;
+}
+
+.Home_nav-icon {
+  color: #333;
+  transition: color 0.3s;
+}
+
+.Home_nav-icon:hover {
+  color: #555;
+}
+
+/* Main content area */
+.Home_main {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff; /* Content background color */
+}
+
+/* List of books grid */
+.Home_book-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Book card styles */
+.Home_book-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.Home_book-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.Home_book-image {
+  object-fit: fill;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.Home_book-content {
+  text-align: center;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.Home_book-content h3,
+.Home_book-content p {
+  margin: 5px 0;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+/* Overlay for book actions */
+.Home_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(51, 51, 51, 0.8); /* Semi-transparent overlay */
+  color: #fff; /* Text color */
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0px 2px 20px rgb(169 155 112);
+}
+
+.Home_book-card:hover .Home_overlay {
+  opacity: 1;
+}
+
+/* Admin actions */
+.Home_admin-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Add book card */
+.Home_add-book {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed #333;
+}
+
+.Home_add-icon {
+  font-size: 60px;
+  color: #333;
+}
+
+/* Responsive layout adjustments */
+@media (max-width: 600px) {
+  .Home_book-list {
+    grid-template-columns: 1fr; /* Single column layout on smaller screens */
+    gap: 10px;
+  }
+
+  .Home_book-card {
+    padding: 10px;
+  }
+
+  .Home_book-content h6,
+  .Home_book-content p {
+    font-size: 12px; /* Smaller font size for book details */
+  }
+
+  .Home_book-image {
+    width: 100px; /* Smaller image size */
+    height: 150px;
+  }
+}
