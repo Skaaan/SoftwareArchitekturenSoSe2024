@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './ConfirmOrder.css';
-import { getBasketItems, getAllProducts } from './apiService';
+import { getBasketItems, getAllProducts, checkout } from './apiService';
 import Header from './Header';
 
 const ConfirmOrder = () => {
@@ -9,6 +9,7 @@ const ConfirmOrder = () => {
   const [subTotal, setSubTotal] = useState(0);
   const [deliveryFee, setDeliveryFee] = useState(4.00);
   const navigate = useNavigate();
+  const location = useLocation();
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   useEffect(() => {
@@ -62,16 +63,40 @@ const ConfirmOrder = () => {
             }]
           });
         },
-        onApprove: function (data, actions) {
-          return actions.order.capture().then(function (details) {
-            alert('Transaction completed by ' + details.payer.name.given_name);
-            navigate('/orderconfirmation');
+        onApprove: async function (data, actions) {
+          return actions.order.capture().then(async function (details) {
+            try {
+              alert('Transaction completed by ' + details.payer.name.given_name);
+              // Call the checkout API to finalize the order
+              const orderDetails = await checkout();
+              console.log('Order details:', orderDetails);
+              // Navigate to the order confirmation page
+              navigate('/orderconfirmation');
+            } catch (error) {
+              console.error('Error during checkout:', error);
+            }
           });
         }
       }).render('#paypal-button-container');
       setPaypalLoaded(true);
     }
   }, [books, subTotal, deliveryFee, navigate, paypalLoaded]);
+
+  const shippingAddress = location.state?.formShippingData || {
+    name: "Unknown",
+    phone: "Unknown",
+    email: "Unknown",
+    street: "Unknown",
+    city: "Unknown",
+    zip: "Unknown",
+    shippingCountry: "Unknown",
+    shippingFirstName: "Unknown",
+    shippingLastName: "Unknown",
+    shippingStreet: "Unknown",
+    shippingCity: "Unknown",
+    shippingPlz: "Unknown",
+    method: "Standard"
+  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -99,6 +124,13 @@ const ConfirmOrder = () => {
           <p><strong>Sub-total:</strong> {subTotal.toFixed(2)}€</p>
           <p><strong>Delivery:</strong> {deliveryFee.toFixed(2)}€</p>
           <p><strong>Total:</strong> {(subTotal + deliveryFee).toFixed(2)}€</p>
+        </div>
+        <div className="ConfirmOrder_shipping-details">
+          <h3>Shipping Details ({shippingAddress.method}) :</h3>
+          <p>{shippingAddress.shippingFirstName} {shippingAddress.shippingLastName},</p>
+          <p>{shippingAddress.shippingStreet}</p>
+          <p>{shippingAddress.shippingCity}, {shippingAddress.shippingPlz}</p>
+          <p>{shippingAddress.shippingCountry}</p>
         </div>
         <div className="ConfirmOrder_payment-methods">
           <h2>Payment Method</h2>

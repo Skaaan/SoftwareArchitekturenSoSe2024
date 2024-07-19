@@ -1,29 +1,33 @@
+/* General styles for the entire page */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333; /* Default text color */
 }
 
 body {
-  color: #333;
+  background-color: #f0f0f0; /* Light background color */
 }
 
+/* Container for the entire application */
 .Home_app {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100vh; /* Full height of the viewport */
 }
 
+/* Header section containing logo, search bar, and navigation */
 .Home_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #a2957b;
+  background-color: #a2957b; /* Header background color */
   height: 4rem;
-  box-shadow: 0px 5px 8px #877e6b;
+  box-shadow: 0px 5px 8px #877e6b; /* Header shadow */
 }
 
 .Home_logo-container {
@@ -56,6 +60,7 @@ body {
   color: #555;
 }
 
+/* Search bar wrapper */
 .Home_search-bar-wrapper {
   flex-grow: 1;
   display: flex;
@@ -63,6 +68,7 @@ body {
   align-items: center;
 }
 
+/* Search bar input field */
 .Home_search-bar {
   display: flex;
   align-items: center;
@@ -92,6 +98,7 @@ body {
   padding-right: 0px;
 }
 
+/* Round button for search */
 .Home_round-button {
   background: white;
   height: 50px;
@@ -103,6 +110,7 @@ body {
   cursor: pointer;
 }
 
+/* Navigation section */
 .Home_nav {
   display: flex;
   align-items: center;
@@ -135,18 +143,21 @@ body {
   color: #555;
 }
 
+/* Main content area */
 .Home_main {
   flex-grow: 1;
   padding: 20px;
-  background-color: #fff;
+  background-color: #fff; /* Content background color */
 }
 
+/* List of books grid */
 .Home_book-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 }
 
+/* Book card styles */
 .Home_book-card {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -174,7 +185,6 @@ body {
   width: 100%;
 }
 
-
 .Home_book-content {
   text-align: center;
   width: 100%;
@@ -183,12 +193,14 @@ body {
   flex-direction: column;
 }
 
-.Home_book-content h3, .Home_book-content p {
+.Home_book-content h3,
+.Home_book-content p {
   margin: 5px 0;
   font-size: 14px;
   word-wrap: break-word;
 }
 
+/* Overlay for book actions */
 .Home_overlay {
   position: absolute;
   top: 0;
@@ -199,18 +211,19 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(51, 51, 51, 0.8);
-  color: #fff;
+  background-color: rgba(51, 51, 51, 0.8); 
+  color: #fff; /* Text color */
   font-size: 18px;
   opacity: 0;
   transition: opacity 0.3s;
-  box-shadow:0px 2px 20px rgb(169 155 112);
+  box-shadow: 0px 2px 20px rgb(169 155 112);
 }
 
 .Home_book-card:hover .Home_overlay {
   opacity: 1;
 }
 
+/* Admin actions */
 .Home_admin-actions {
   display: flex;
   justify-content: space-between;
@@ -219,6 +232,7 @@ body {
   box-sizing: border-box;
 }
 
+/* Add book card */
 .Home_add-book {
   display: flex;
   justify-content: center;
@@ -231,9 +245,10 @@ body {
   color: #333;
 }
 
+/* Responsive layout adjustments */
 @media (max-width: 600px) {
   .Home_book-list {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Single column layout on smaller screens */
     gap: 10px;
   }
 
@@ -241,12 +256,13 @@ body {
     padding: 10px;
   }
 
-  .Home_book-content h6, .Home_book-content p {
-    font-size: 12px;
+  .Home_book-content h6,
+  .Home_book-content p {
+    font-size: 12px; /* Smaller font size for book details */
   }
 
   .Home_book-image {
-    width: 100px;
+    width: 100px; /* Smaller image size */
     height: 150px;
   }
 }

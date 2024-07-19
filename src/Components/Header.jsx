@@ -1,90 +1,66 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useKeycloak } from '@react-keycloak/web';
 import { Box, Typography, Button, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import SearchIcon from '@mui/icons-material/Search';
 import './Header.css';
-import { getBasketItems } from './apiService'; // Import the API function to get basket items
+import { getBasketItems } from './apiService';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
-const Header = ({ handleSearch }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [isError, setIsError] = useState(false);
-  const navigate = useNavigate(); // useNavigate hook
+const Header = () => {
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const onSearch = () => {
-    if (!searchQuery.trim()) {
-      setIsError(true);
-      return;
-    }
-    setIsError(false);
-    handleSearch(searchQuery);
-  };
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleBasketClick = async () => {
     try {
       const basketItems = await getBasketItems();
-      console.log('Basket items:', basketItems); // You can handle the basket items as needed
-      navigate('/checkout', { state: { basketItems } }); // Pass basket items to the checkout page
+      console.log('Basket items:', basketItems);
+      navigate('/checkout', { state: { basketItems } });
     } catch (error) {
       console.error('Error fetching basket items:', error);
     }
   };
 
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      navigate('/login')
+      console.log('User signed out!');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return (
     <Box className="Header_header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#a2957b', height: '4rem' }}>
-      <Box className="Header_logo-container" onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+      <Box className="Header_logo-container" onClick={() => navigate('/home')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
         <LibraryBooksIcon className="Header_logo-icon" sx={{ color: '#333', width: '40px', height: '40px', marginRight: '10px', transition: 'color 0.3s, transform 0.3s' }} />
         <Typography className="Header_logo-text" variant="h5" sx={{ fontSize: '24px', fontWeight: 'bold', color: '#333', transition: 'color 0.3s' }}>Reader’s Insel</Typography>
       </Box>
-      <Box className="search-bar" sx={{ width: '300px', mx: 2 }}>
-        <TextField 
-          fullWidth 
-          variant="outlined" 
-          placeholder="Search by Title, Author, or ISBN" 
-          value={searchQuery}
-          onChange={(e) => {
-            setSearchQuery(e.target.value);
-            if (isError) setIsError(false);
-          }}
-          error={isError}
-          helperText={isError ? "Search input is required" : ""}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={onSearch}>
-                  <SearchIcon sx={{ color: '#666', transition: 'color 0.3s', '&:hover': { color: '#333' } }} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            bgcolor: '#f8f0dc',  // A lighter shade of the header color
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: '#333',
-                transition: 'border-color 0.3s',
-              },
-              '&:hover fieldset': {
-                borderColor: '#555',
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: '#333',
-              },
-            },
-            '& .MuiInputBase-input': {
-              color: '#333',
-            },
-          }} 
-        />
-      </Box>
-      <Box className="nav">
-        <Button onClick={() => navigate('/login')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
-        <Button onClick={() => navigate('/profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
-        <Button onClick={() => navigate('/contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
-        <IconButton onClick={handleBasketClick} sx={{ mx: 1 }}>
-          <ShoppingCartIcon sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }} />
+      <Box className="Header_nav" sx={{ display: 'flex', alignItems: 'center' }}>
+        {user ? (
+          <>
+            <Button onClick={handleLogout} className="Header_nav-button" sx={{ margin: '0 10px', background: 'none', border: '2px solid #333', color: '#333', fontSize: '16px', padding: '5px 15px', cursor: 'pointer', borderRadius: '5px', transition: 'background-color 0.3s, color 0.3s, border-color 0.3s' }}>Logout</Button>
+          </>
+        ) : (
+          <Button onClick={() => navigate('/login')} className="Header_nav-button" sx={{ margin: '0 10px', background: 'none', border: '2px solid #333', color: '#333', fontSize: '16px', padding: '5px 15px', cursor: 'pointer', borderRadius: '5px', transition: 'background-color 0.3s, color 0.3s, border-color 0.3s' }}>Log in</Button>
+        )}
+        <Button onClick={() => navigate('/contact')} className="Header_nav-button" sx={{ margin: '0 10px', background: 'none', border: '2px solid #333', color: '#333', fontSize: '16px', padding: '5px 15px', cursor: 'pointer', borderRadius: '5px', transition: 'background-color 0.3s, color 0.3s, border-color 0.3s' }}>Contact</Button>
+        <IconButton onClick={handleBasketClick}>
+          <ShoppingCartIcon className="Header_nav-icon" sx={{ color: '#333', transition: 'color 0.3s' }} />
         </IconButton>
       </Box>
     </Box>

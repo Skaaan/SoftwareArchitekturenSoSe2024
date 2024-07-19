@@ -9,10 +9,12 @@
 .Add_add-container {
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  margin: 5rem;
+  max-width: 40rem;
+
 }
 
 .Add_add-header {

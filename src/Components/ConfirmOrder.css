@@ -37,7 +37,17 @@ h2 {
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.ConfirmOrder_cart-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
 }
 
 .ConfirmOrder_cart-item img {
@@ -45,6 +55,8 @@ h2 {
   height: 150px;
   object-fit: cover;
   margin-right: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 20px rgb(169 155 112);
 }
 
 .ConfirmOrder_items-details {
@@ -70,6 +82,19 @@ h2 {
 
 .ConfirmOrder_summary p {
   margin: 10px 0;
+}
+
+.ConfirmOrder_shipping-details {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  text-align: left;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.ConfirmOrder_shipping-details p {
+  margin: 5px 0;
 }
 
 .ConfirmOrder_payment-methods {

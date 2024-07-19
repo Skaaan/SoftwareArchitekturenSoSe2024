@@ -1,11 +1,16 @@
 import axios from 'axios';
+import { getAuth } from "firebase/auth";
 
 const API_GATEWAY_URL = 'http://localhost:9001';
 
 // Function to get the authentication token
-const getAuthToken = () => {
-  const keycloak = JSON.parse(localStorage.getItem('keycloak'));
-  return keycloak ? keycloak.token : null;
+const getAuthToken = async () => {
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    return await currentUser.getIdToken();
+  }
+  return null;
 };
 
 // Create an Axios instance
@@ -19,13 +24,11 @@ const apiClient = axios.create({
 
 // Add a request interceptor to include the auth token
 apiClient.interceptors.request.use(
-  (config) => {
-    const token = getAuthToken();
+  async (config) => {
+    const token = await getAuthToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-      console.log('Token added to request:', token); // Log token for verification
     }
-    console.log('Request config:', config); // Log request config for debugging
     return config;
   },
   (error) => {
@@ -53,9 +56,9 @@ export const createProduct = async (productRequest) => {
   }
 };
 
-export const updateProduct = async (id, productRequest) => {
+export const updateProduct = async (isbn, productRequest) => {
   try {
-    const response = await apiClient.put(`/api/product/update/${id}`, productRequest);
+    const response = await apiClient.put(`/api/product/${isbn}`, productRequest);
     return response.data;
   } catch (error) {
     console.error('Error updating product:', error);
@@ -112,5 +115,15 @@ export const getBasketItems = async () => {
   } catch (error) {
     console.error('Error fetching basket items:', error);
     throw error;
+  }
+};
+
+export const checkout = async () => {
+  try {
+    const response = await apiClient.post('/api/baskets/checkout');
+    return response.data;
+  } catch (error) {
+    console.error('Error during checkout:', error);
+    throw new Error('Error during checkout: ' + error.message);
   }
 };

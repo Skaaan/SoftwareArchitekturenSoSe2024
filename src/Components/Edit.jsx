@@ -7,14 +7,16 @@ import Header from './Header';
 
 const Edit = () => {
   const { isbn } = useParams();
+  console.log('useParams output:', useParams());  // Log the output of useParams
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    title: '',
+    name: '',
     author: '',
     genre: '',
-    published_year: '',
+    publishedYear: '',
     isbn: '',
-    image_link: '',
+    imageLink: '',
+    price: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -22,13 +24,29 @@ const Edit = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
+    if (!isbn) {
+      setError('Invalid ISBN');
+      return;
+    }
+
     const fetchBook = async () => {
       setLoading(true);
       try {
         const products = await getAllProducts();
-        const book = products.find(p => p.isbn === isbn);
+        console.log('Fetched products:', products);  // Debugging: Check fetched products
+        console.log('Searching for ISBN:', isbn);  // Debugging: Log ISBN being searched for
+        const book = products.find(p => String(p.isbn) === String(isbn));
+        console.log('Found book:', book);  // Debugging: Check the found book
         if (book) {
-          setFormData(book);
+          setFormData({
+            name: book.name,
+            author: book.author,
+            genre: book.genre,
+            publishedYear: book.publishedYear,
+            isbn: book.isbn,
+            imageLink: book.imageLink,
+            price: book.price
+          });
         } else {
           setError('Book not found');
         }
@@ -73,15 +91,15 @@ const Edit = () => {
 
   return (
     <div>
-      <Header />
+     <Header />
       <Box className="Edit_edit-page">
         <Box className="Edit_edit-container">
           <Typography variant="h4" className="Edit_edit-header">Edit Book</Typography>
           <form className="Edit_edit-form" onSubmit={handleSubmit}>
             <TextField
               label="Title"
-              name="title"
-              value={formData.title}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
               fullWidth
@@ -107,12 +125,14 @@ const Edit = () => {
             />
             <TextField
               label="Published Year"
-              name="published_year"
-              value={formData.published_year}
+              name="publishedYear"
+              value={formData.publishedYear}
               onChange={handleChange}
               required
               fullWidth
               margin="normal"
+              type="number"
+              inputProps={{ min: 0 }}
             />
             <TextField
               label="ISBN"
@@ -128,21 +148,32 @@ const Edit = () => {
             />
             <TextField
               label="Image URL"
-              name="image_link"
-              value={formData.image_link}
+              name="imageLink"
+              value={formData.imageLink}
               onChange={handleChange}
               required
               fullWidth
               margin="normal"
             />
-            {formData.image_link && (
+            <TextField
+              label="Price"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              required
+              fullWidth
+              margin="normal"
+              type="number"
+              inputProps={{ min: 0, step: '0.01' }}
+            />
+            {formData.imageLink && (
               <Box className="Edit_image-preview">
-                <img src={formData.image_link} alt="Book" />
+                <img src={formData.imageLink} alt="Book" />
               </Box>
             )}
             <Box className="Edit_edit-buttons">
               <Button type="submit" variant="contained" color="primary" disabled={loading}>Save</Button>
-              <Button type="button" variant="outlined" color="secondary" onClick={() => navigate('/')}>Cancel</Button>
+              <Button type="button" variant="outlined" color="secondary" onClick={() => navigate('/home')}>Cancel</Button>
             </Box>
             {loading && <CircularProgress />}
             {error && <Typography color="error">{error}</Typography>}

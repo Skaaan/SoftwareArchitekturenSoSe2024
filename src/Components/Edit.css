@@ -9,10 +9,11 @@
 .Edit_edit-container {
   background-color: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  margin: 5rem;
+  max-width: 50rem;
 }
 
 .Edit_edit-header {
@@ -31,9 +32,10 @@
 }
 
 .Edit_image-preview img {
-  max-width: 100%;
+  max-width: 50%;
   height: auto;
   border-radius: 8px;
+  box-shadow: 0 0 20px rgb(150 127 58);
 }
 
 .Edit_edit-buttons {

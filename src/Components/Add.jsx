@@ -38,7 +38,7 @@ const Add = () => {
       if (response) {
         setSuccess('Book added successfully!');
         setTimeout(() => {
-          navigate('/');
+          navigate('/home');
         }, 2000);
       } else {
         setError('Failed to add book');
@@ -127,7 +127,7 @@ const Add = () => {
           )}
           <Box className="Add_add-buttons">
             <Button type="submit" variant="contained" color="primary" disabled={loading}>Save</Button>
-            <Button type="button" variant="outlined" color="secondary" onClick={() => navigate('/')}>Cancel</Button>
+            <Button type="button" variant="outlined" color="secondary" onClick={() => navigate('/home')}>Cancel</Button>
           </Box>
           {loading && <CircularProgress />}
           {error && <Typography color="error">{error}</Typography>}
