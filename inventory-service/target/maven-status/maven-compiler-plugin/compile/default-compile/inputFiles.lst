@@ -1,0 +1,9 @@
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/config/RabbitMQConfig.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/dto/InventoryUpdateRequest.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/controller/InventoryController.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/service/InventoryService.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/repository/InventoryRepository.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/InventoryServiceApplication.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/config/SecurityConfig.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/common/StockCheckResponse.java
+/Users/muhammadnaeemlaghari/Downloads/untitled folder/inventory-service/src/main/java/com/microservices/inventory/model/Inventory.java

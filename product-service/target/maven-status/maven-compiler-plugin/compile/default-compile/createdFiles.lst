@@ -1,0 +1,12 @@
+com/microservices/product/dto/InventoryUpdateRequest.class
+com/microservices/product/config/RabbitMQConfig.class
+com/microservices/product/model/Product$ProductBuilder.class
+com/microservices/product/dto/ProductRequest$ProductRequestBuilder.class
+com/microservices/product/dto/ProductResponse.class
+com/microservices/product/ProductServiceApplication.class
+com/microservices/product/service/ProductService.class
+com/microservices/product/dto/ProductResponse$ProductResponseBuilder.class
+com/microservices/product/controller/ProductController.class
+com/microservices/product/repository/ProductRepository.class
+com/microservices/product/dto/ProductRequest.class
+com/microservices/product/model/Product.class

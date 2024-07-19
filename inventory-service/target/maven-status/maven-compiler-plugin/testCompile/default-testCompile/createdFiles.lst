@@ -1,0 +1,3 @@
+com/microservices/inventory/integration/InventoryControllerIntegrationTests.class
+com/microservices/inventory/InventoryServiceApplicationTests.class
+com/microservices/inventory/service/InventoryServiceTests.class
