@@ -1,3 +1,4 @@
+// File: src/main/java/com/microservices/product/dto/InventoryUpdateRequest.java
 package com.microservices.product.dto;
 
 import lombok.AllArgsConstructor;

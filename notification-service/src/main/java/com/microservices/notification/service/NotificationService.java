@@ -58,21 +58,28 @@ public class NotificationService {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setTo(toEmail);
-            helper.setSubject("Order Confirmation");
+            helper.setSubject("📚 Order Confirmation from Readers Insel");
             helper.setFrom(fromEmail);
 
+            // Customize your email content here
             String emailContent = "<html>"
                     + "<body style='font-family: Arial, sans-serif;'>"
-                    + "<h2 style='color: #2E8B57;'>Hello " + userName + ",</h2>"
-                    + "<p>Thank you for shopping with us. Your order has been placed successfully. Here are your order details:</p>"
-                    + "<table style='border-collapse: collapse; width: 100%;'>"
+                    + "<h2 style='color: #2E8B57;'>Hello, " + userName + "</h2>"
+                    + "<p>Thank you for shopping with us at Readers Insel. Your order has been successfully placed.</p>"
+                    + "<p>Below are your order details:</p>"
+                    + "<table style='border-collapse: collapse; width: 100%; margin-top: 20px;'>"
                     + "  <tr style='background-color: #f2f2f2;'>"
-                    + "    <th style='border: 1px solid #ddd; padding: 8px;'>Order Number</th>"
-                    + "    <th style='border: 1px solid #ddd; padding: 8px;'>" + orderNumber + "</th>"
+                    + "    <th style='border: 1px solid #ddd; padding: 10px;'>Order Number</th>"
+                    + "    <td style='border: 1px solid #ddd; padding: 10px;'>" + orderNumber + "</td>"
                     + "  </tr>"
                     + "</table>"
-                    + "<p>If you have any questions or need further assistance, please do not hesitate to contact us.</p>"
-                    + "<p>Best regards,<br/>Your Store Team</p>"
+                    + "<p>Your order will be processed shortly and you will receive a separate email when your items are shipped.</p>"
+                    + "<p>If you have any questions or need further assistance, please feel free to contact us.</p>"
+                    + "<p>Thank you once again for choosing Readers Insel.</p>"
+                    + "<p style='font-size: 0.8em; color: #888;'>"
+                    + "This is an automated email. Please do not reply directly to this email. If you have any queries, please contact our customer support."
+                    + "</p>"
+                    + "<p style='margin-top: 20px; font-size: 0.8em;'>Best regards,<br/>Your Bookstore Team</p>"
                     + "</body>"
                     + "</html>";
 

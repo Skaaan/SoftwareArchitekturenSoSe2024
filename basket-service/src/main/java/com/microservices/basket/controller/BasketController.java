@@ -44,26 +44,25 @@ public class BasketController {
     @ResponseStatus(HttpStatus.CREATED)
     public String checkout() {
         String userEmail = getLoggedInUserEmail();
-        String userName = getLoggedInUserName();
-        log.debug("Checkout initiated for user: {} ({})", userEmail, userName);
+        log.debug("Checkout initiated for user: {} ({})", userEmail);
 
         Basket basket = basketService.getBasket();
         basketService.clearBasket();
 
         // Send order details, user email, and user name to the notification service
-        String orderDetails = restTemplate.postForObject("http://localhost:9001/api/order", basket, String.class);
-        rabbitTemplate.convertAndSend("order.confirmation.queue", userEmail + ";" + userName + ";" + orderDetails);
+        String orderDetails = restTemplate.postForObject("http://api-gateway:9001/api/order", basket, String.class);
+        rabbitTemplate.convertAndSend("order.confirmation.queue", userEmail + ";"  + ";" + orderDetails);
 
         return orderDetails;
     }
 
     private String getLoggedInUserEmail() {
         Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.getClaim("email");
+        return principal.getClaimAsString("email");
     }
 
     private String getLoggedInUserName() {
         Jwt principal = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.getClaim("name");
+        return principal.getClaimAsString("name");
     }
 }

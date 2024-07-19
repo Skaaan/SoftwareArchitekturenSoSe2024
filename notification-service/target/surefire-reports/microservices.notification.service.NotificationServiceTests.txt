@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: microservices.notification.service.NotificationServiceTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.487 s -- in microservices.notification.service.NotificationServiceTests

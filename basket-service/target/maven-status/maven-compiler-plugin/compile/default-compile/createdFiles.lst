@@ -1,0 +1,12 @@
+com/microservices/basket/model/Basket$BasketBuilder.class
+com/microservices/basket/model/Basket.class
+com/microservices/common/InventoryUpdateRequest.class
+com/microservices/basket/repository/BasketRepository.class
+com/microservices/basket/BasketServiceApplication.class
+com/microservices/basket/controller/BasketController.class
+com/microservices/basket/config/RestTemplateConfig.class
+com/microservices/basket/service/BasketService.class
+com/microservices/basket/config/SecurityConfig.class
+com/microservices/common/StockCheckResponse.class
+com/microservices/basket/controller/BasketItemRequest.class
+com/microservices/basket/model/BasketItem.class

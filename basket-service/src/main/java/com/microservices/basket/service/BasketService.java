@@ -25,7 +25,7 @@ public class BasketService {
     private final RestTemplate restTemplate;
     private final RabbitTemplate rabbitTemplate;
 
-    private static final String INVENTORY_SERVICE_URL = "http://localhost:9001/api/inventory";
+    private static final String INVENTORY_SERVICE_URL = "http://api-gateway:9001/api/inventory";
 
     public Basket getBasket() {
         String userId = getLoggedInUserId();
@@ -169,13 +169,12 @@ public class BasketService {
     }
 
     public void checkout() {
-        String userId = getLoggedInUserId();
         String userEmail = getLoggedInUserEmail();
-        String userName = getLoggedInUserName();
         String orderNumber = UUID.randomUUID().toString();
-        Basket basket = getBasket();
         clearBasket();
-        // Send a message to the notification service with the user's email, name, order number, and order details
-        rabbitTemplate.convertAndSend("order.exchange", "orderRoutingKey", userEmail + ";" + userName + ";" + orderNumber + ";" + basket.toString());
+
+        // Send a message to the notification service with user's email and order number
+        rabbitTemplate.convertAndSend("order.exchange", "orderRoutingKey", userEmail + ";" + orderNumber);
     }
+
 }

@@ -1,9 +1,9 @@
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/service/ProductService.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductResponse.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/ProductServiceApplication.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/controller/ProductController.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/model/Product.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/config/RabbitMQConfig.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductRequest.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/repository/ProductRepository.java
-/Users/muhammadnaeemlaghari/Desktop/Uni/4. FS/Software Architektur/Backend/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/config/WebConfig.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/service/ProductService.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/controller/ProductController.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/repository/ProductRepository.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductRequest.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/ProductServiceApplication.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/InventoryUpdateRequest.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/dto/ProductResponse.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/model/Product.java
+/Users/muhammadnaeemlaghari/Downloads/ProjectNew/SoftwareArchitekturenSoSe2024/product-service/src/main/java/com/microservices/product/config/RabbitMQConfig.java
