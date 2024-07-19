@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { register, signIn } from './auth';
 import { useNavigate } from 'react-router-dom';
-import './Script/Login.css';
+import './Login.css';
 import Header from './Header';
 
 const SignInComponent = () => {

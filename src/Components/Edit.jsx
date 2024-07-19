@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Box, TextField, Button, CircularProgress, Typography } from '@mui/material';
-import './Script/Edit.css';
+import './Edit.css';
 import { getAllProducts, updateProduct } from './apiService';
 import Header from './Header';
 

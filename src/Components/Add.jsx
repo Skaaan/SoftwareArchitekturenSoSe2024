@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, CircularProgress, Typography } from '@mui/material';
-import './Script/Add.css';
+import './Add.css';
 import { createProduct } from './apiService';
 import Header from './Header';
 

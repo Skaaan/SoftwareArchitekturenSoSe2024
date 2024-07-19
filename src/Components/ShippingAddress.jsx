@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Script/ShippingAddress.css';
+import './ShippingAddress.css';
 import Header from './Header';
 
 const ShippingAddress = () => {

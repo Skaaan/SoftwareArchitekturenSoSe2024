@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import '././Script/Description.css';
+import './Description.css';
 import Header from './Header';
 
 const Description = () => {

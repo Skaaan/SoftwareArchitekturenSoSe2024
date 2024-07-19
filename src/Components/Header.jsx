@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import './Script/Header.css';
+import './Header.css';
 import { getBasketItems } from './apiService';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 

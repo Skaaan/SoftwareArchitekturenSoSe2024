@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Script/OrderConfirmation.css';
+import './OrderConfirmation.css';
 import Header from './Header';
 import { Box, TextField, Button, CircularProgress, Typography } from '@mui/material';
 

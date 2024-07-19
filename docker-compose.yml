@@ -19,6 +19,20 @@ services:
       - "5672:5672"
       - "15672:15672"
 
+  keycloak:
+    image: quay.io/keycloak/keycloak:25.0.0
+    container_name: keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
+    command: ["--spi-connections-jpa-default-keycloak-config-dir=/opt/keycloak/conf"]
+    ports:
+      - "8080:8080"
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./keycloak/conf:/opt/keycloak/conf
+
   service-discovery:
     build:
       context: ./service-discovery
@@ -72,7 +86,7 @@ services:
       dockerfile: Dockerfile
     container_name: inventory-service
     ports:
-      - "8090:8090"
+      - "8082:8082"
     depends_on:
       - mysql
       - rabbitmq
@@ -95,14 +109,15 @@ services:
       - mysql
       - rabbitmq
       - service-discovery
+      - keycloak
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/basket_service
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka/
-      SPRING_RABBITMQ_HOST: rabbitmq 
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://securetoken.google.com/readers-insel
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/bookStore
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/bookStore/protocol/openid-connect/certs
 
   api-gateway:
     build:
@@ -116,16 +131,16 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka/
       SPRING_CLOUD_GATEWAY_ROUTES[0].ID: product-service
-      SPRING_CLOUD_GATEWAY_ROUTES[0].URI: lb://product-service
+      SPRING_CLOUD_GATEWAY_ROUTES[0].URI: http://product-service:8081
       SPRING_CLOUD_GATEWAY_ROUTES[0].PREDICATES[0]: Path=/api/product/**
       SPRING_CLOUD_GATEWAY_ROUTES[1].ID: order-service
-      SPRING_CLOUD_GATEWAY_ROUTES[1].URI: lb://order-service
+      SPRING_CLOUD_GATEWAY_ROUTES[1].URI: http://order-service:8083
       SPRING_CLOUD_GATEWAY_ROUTES[1].PREDICATES[0]: Path=/api/order/**
       SPRING_CLOUD_GATEWAY_ROUTES[2].ID: inventory-service
-      SPRING_CLOUD_GATEWAY_ROUTES[2].URI: lb://inventory-service
+      SPRING_CLOUD_GATEWAY_ROUTES[2].URI: http://inventory-service:8082
       SPRING_CLOUD_GATEWAY_ROUTES[2].PREDICATES[0]: Path=/api/inventory/**
       SPRING_CLOUD_GATEWAY_ROUTES[3].ID: basket-service
-      SPRING_CLOUD_GATEWAY_ROUTES[3].URI: lb://basket-service
+      SPRING_CLOUD_GATEWAY_ROUTES[3].URI: http://basket-service:8084
       SPRING_CLOUD_GATEWAY_ROUTES[3].PREDICATES[0]: Path=/api/baskets/**
 
   notification-service:
@@ -147,4 +162,3 @@ services:
 volumes:
   mysql-data:
   keycloak-data:
-

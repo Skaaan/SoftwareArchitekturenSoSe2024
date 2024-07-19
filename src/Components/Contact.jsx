@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, TextField, Button, Checkbox, FormControlLabel, Typography } from '@mui/material';
-import './Script/Contact.css';
+import './Contact.css';
 import Header from './Header';
 
 const Contact = () => {

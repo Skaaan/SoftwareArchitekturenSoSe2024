@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Script/Checkout.css';
+import './Checkout.css';
 import { getBasketItems, addToBasket, removeFromBasket, updateBasketItemQuantity, getAllProducts } from './apiService';
 import Header from './Header';
 
@@ -8,43 +8,43 @@ const Checkout = () => {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const basket = await getBasketItems();
-        const allProducts = await getAllProducts();
+  const fetchData = async () => {
+    try {
+      const basket = await getBasketItems();
+      const allProducts = await getAllProducts();
 
-        if (basket.items && Array.isArray(basket.items)) {
-          const transformedBooks = basket.items.map(item => {
-            const product = allProducts.find(p => p.isbn === item.isbn) || {};
-            return {
-              id: item.id,
-              isbn: item.isbn,
-              quantity: item.quantity,
-              name: product.name || 'Unknown Book',
-              author: product.author || 'Unknown Author',
-              price: product.price || 0,
-              imageLink: product.imageLink || 'https://via.placeholder.com/150',
-            };
-          });
+      if (basket.items && Array.isArray(basket.items)) {
+        const transformedBooks = basket.items.map(item => {
+          const product = allProducts.find(p => p.isbn === item.isbn) || {};
+          return {
+            id: item.id,
+            isbn: item.isbn,
+            quantity: item.quantity,
+            name: product.name || 'Unknown Book',
+            author: product.author || 'Unknown Author',
+            price: product.price || 0,
+            imageLink: product.imageLink || 'https://via.placeholder.com/150',
+          };
+        });
 
-          setBooks(transformedBooks);
-        } else {
-          console.error('Basket items are not an array:', basket.items);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        setBooks(transformedBooks);
+      } else {
+        console.error('Basket items are not an array:', basket.items);
       }
-    };
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
 
   const handleRemove = async (book) => {
     try {
       await removeFromBasket(book.isbn);
-      setBooks(books.filter(b => b.isbn !== book.isbn));
-      alert('Removed from cart');
+      console.log(`Removed ${book.name} from cart`);
+      await fetchData();
     } catch (error) {
       console.error('Error removing from cart:', error);
     }
@@ -58,6 +58,7 @@ const Checkout = () => {
       };
       await addToBasket(orderLineItemsDto);
       console.log(`Added ${book.name} to cart`);
+      await fetchData();
     } catch (error) {
       console.error('Error adding item to cart:', error);
     }
@@ -67,7 +68,7 @@ const Checkout = () => {
     if (!Array.isArray(books)) return { subTotal: 0, delivery: 0, total: 0 };
 
     const subTotal = books.reduce((acc, book) => acc + (book.price * book.quantity), 0);
-    const delivery = 4.00; // Static delivery cost
+    const delivery = 4.00;
     const total = subTotal + delivery;
     return { subTotal, delivery, total };
   };

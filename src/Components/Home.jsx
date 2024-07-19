@@ -5,7 +5,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import './Script/Home.css';
+import './Home.css';
 import { getAllProducts, deleteProduct, addToBasket, getBasketItems } from './apiService';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import FirebaseAuth from './FirebaseAuth';

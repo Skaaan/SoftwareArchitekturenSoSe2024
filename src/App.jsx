@@ -9,7 +9,7 @@ import ConfirmOrder from './Components/ConfirmOrder';
 import OrderConfirmation from './Components/OrderConfirmation';
 import Add from './Components/Add';
 import Edit from './Components/Edit';
-import './Components/Script/App.css';
+import './App.css';
 import Footer from './Components/Footer';
 import useRefresh from './Hooks/AutoRefresh';
 import HeroSection from './Components/HeroSection';
