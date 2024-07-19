@@ -1,5 +1,5 @@
 import React from 'react';
-import App from '../App'; // Adjust the path if necessary
+import App from '../App';
 
 const AppWrapper = () => (
   <App />

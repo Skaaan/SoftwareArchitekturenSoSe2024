@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppWrapper from './Components/AppWrapper'; // Ensure the path is correct
+import AppWrapper from './Components/AppWrapper'; 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
