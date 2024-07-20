@@ -1,10 +1,7 @@
-<details>
-<summary><strong>📚 BookStore Project by HTW Berlin Students</strong></summary>
-</details>
+📚 BookStore Project by HTW Berlin Students
 <details>
 <summary><strong>📖 Project Overview</strong></summary>
-Welcome to the Readers Insel Project, developed by a group of dedicated students from HTW Berlin. This project is a comprehensive online bookstore application featuring a robust backend and a user-friendly frontend. 
-  Here’s an overview of our tech stack and project management tools:
+Welcome to the Readers Insel Project, developed by a group of dedicated students from HTW Berlin. This project is a comprehensive online bookstore application featuring a robust backend and a user-friendly frontend. Here’s an overview of our tech stack and project management tools:
 
 </details>
 <details>
@@ -48,4 +45,3 @@ Discord:
 Conducted weekly meetings
 Pair programming sessions via screen sharing
 </details>
-<details>
