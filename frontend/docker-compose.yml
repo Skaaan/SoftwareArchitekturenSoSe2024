@@ -19,23 +19,11 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:25.0.0
-    container_name: keycloak
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
-    command: ["--spi-connections-jpa-default-keycloak-config-dir=/opt/keycloak/conf"]
-    ports:
-      - "8080:8080"
-    volumes:
-      - keycloak-data:/opt/keycloak/data
-      - ./keycloak/conf:/opt/keycloak/conf
+
 
   service-discovery:
     build:
-      context: ./service-discovery
+      context: ./backend/service-discovery
       dockerfile: Dockerfile
     container_name: service-discovery
     ports:
@@ -46,7 +34,7 @@ services:
 
   product-service:
     build:
-      context: ./product-service
+      context: ./backend/product-service
       dockerfile: Dockerfile
     container_name: product-service
     ports:
@@ -64,7 +52,7 @@ services:
 
   order-service:
     build:
-      context: ./order-service
+      context: ./backend/order-service
       dockerfile: Dockerfile
     container_name: order-service
     ports:
@@ -82,7 +70,7 @@ services:
 
   inventory-service:
     build:
-      context: ./inventory-service
+      context: ./backend/inventory-service
       dockerfile: Dockerfile
     container_name: inventory-service
     ports:
@@ -100,7 +88,7 @@ services:
 
   basket-service:
     build:
-      context: ./basket-service
+      context: ./backend/basket-service
       dockerfile: Dockerfile
     container_name: basket-service
     ports:
@@ -109,19 +97,16 @@ services:
       - mysql
       - rabbitmq
       - service-discovery
-      - keycloak
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/basket_service
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 1234
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka/
       SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://keycloak:8080/realms/bookStore
-      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://keycloak:8080/realms/bookStore/protocol/openid-connect/certs
 
   api-gateway:
     build:
-      context: ./api-gateway
+      context: ./backend/api-gateway
       dockerfile: Dockerfile
     container_name: api-gateway
     ports:
